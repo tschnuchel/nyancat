@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE themes PUBLIC "-//www.matthiasmann.de//TWL-Theme//EN" "http://hg.l33tlabs.org/twl/raw-file/tip/src/de/matthiasmann/twl/theme/theme.dtd">
+<themes>
+	<include filename="./cursors.xml"/>
+
+    <images file="spritesheet.png">
+        <area name="white box" xywh="1,1,125,67" splitx="L20,R20" splity="T17,B18" nocenter="true"/>
+        <select name="button.background" inset="-20,0">
+            <alias ref="white box" if="keyboardFocus" inset="1" tint="#D93A3A" border="2"/>
+            <alias ref="white box" if="hover" inset="1" tint="#D93A3A"/>
+            <alias ref="white box" if="pressed" inset="1"/>
+            <alias ref="white box"/>
+        </select>
+        <area name="whitepixel" xywh="35,4,1,1"/>
+        <alias name="editfield.cursor" ref="whitepixel"/>
+        <alias name="editfield.selection" ref="whitepixel"/>
+    </images>
+    
+    <fontDef name="normal" filename="font.fnt" color="white" default="true" offsetX="0">
+        <fontParam if="error" color="red"/>
+        <fontParam if="warning" color="orange"/>
+        <fontParam if="disabled" color="gray"/>
+        <fontParam if="textSelection" color="blue"/>
+    </fontDef>
+
+    <inputMapDef name="-defaultInputMap">
+        <action name="selectAll">ctrl A</action>
+        <action name="selectAll">cmd A</action>
+        <action name="cut">ctrl X</action>
+        <action name="cut">cmd X</action>
+        <action name="copy">ctrl C</action>
+        <action name="copy">cmd C</action>
+        <action name="paste">ctrl V</action>
+        <action name="paste">cmd V</action>
+        <action name="tab">TAB</action>
+        <action name="shiftTab">shift TAB</action>
+    </inputMapDef>
+    <inputMapDef name="enterInputMapDef" ref="-defaultInputMap">
+        <action name="enter">RETURN</action>
+    </inputMapDef>
+
+    <theme name="-defaults">
+        <param name="background"><image>none</image></param>
+        <param name="overlay"><image>none</image></param>
+        <param name="font"><font>normal</font></param>
+        <param name="textAlignment"><enum type="alignment">CENTER</enum></param>
+        <param name="minWidth"><int>0</int></param>
+        <param name="minHeight"><int>0</int></param>
+        <param name="maxWidth"><int>0</int></param>
+        <param name="maxHeight"><int>0</int></param>
+        <param name="inputMap"><inputMap>-defaultInputMap</inputMap></param>
+    </theme>
+
+    <theme name="tooltipwindow" ref="-defaults">
+    	<param name="background"><image>none</image></param>
+    	<param name="border"><border>3</border></param>
+    	<param name="fadeInTime"><int>1000</int></param>
+    	<theme name="label" ref="-defaults"></theme>
+	</theme>
+    
+    <theme name="label" ref="-defaults" allowWildcard="true">
+    </theme>
+    
+    <theme name="button" ref="-defaults">
+        <param name="background"><image>button.background</image></param>
+        <param name="font"><font>normal</font></param>
+    </theme>
+    
+	<theme name="editfield" ref="-defaults" allowWildcard="true">
+		<param name="background"><image>button.background</image></param>
+		<param name="passwordChar"><int>0x25CF</int></param>
+		<param name="maxWidth"><int>32767</int></param>
+		<param name="columns"><int>20</int></param>
+		<param name="autocompletion-height"><int>150</int></param>
+		<param name="font"><font>normal</font></param>
+		<param name="mouseCursor"><cursor>cursor.text</cursor></param>
+		<theme name="renderer" ref="-defaults"/>
+        <param name="cursor"><image>editfield.cursor</image></param>
+        <param name="selection"><image>editfield.selection</image></param>
+	</theme>
+
+    <theme name="state0" ref="-defaults">
+        <theme name="button" ref="-defaults">
+			<param name="background"><image>button.background</image></param>
+			<param name="font"><font>normal</font></param>
+	    </theme>
+	    
+		<theme name="label" ref="-defaults" allowWildcard="true">
+    	</theme>
+    	
+		<theme name="editfield" ref="-defaults" allowWildcard="true">
+			<param name="background"><image>button.background</image></param>
+			<param name="passwordChar"><int>0x25CF</int></param>
+			<param name="maxWidth"><int>32767</int></param>
+			<param name="columns"><int>20</int></param>
+			<param name="autocompletion-height"><int>150</int></param>
+			<param name="font"><font>normal</font></param>
+			<param name="mouseCursor"><cursor>cursor.text</cursor></param>
+			<param name="cursor"><image>none</image></param>
+			<param name="selection"><image>none</image></param>
+			
+			<theme name="renderer" ref="-defaults"/>
+		</theme>
+    </theme>
+    
+    <theme name="state1" ref="-defaults">
+    </theme>
+    
+	<theme name="state2" ref="-defaults">
+        <theme name="button" ref="-defaults">
+			<param name="background"><image>button.background</image></param>
+			<param name="font"><font>normal</font></param>
+	    </theme>
+	    
+		<theme name="label" ref="-defaults" allowWildcard="true">
+    	</theme>
+    	
+		<theme name="editfield" ref="-defaults" allowWildcard="true">
+			<param name="background"><image>button.background</image></param>
+			<param name="passwordChar"><int>0x25CF</int></param>
+			<param name="maxWidth"><int>32767</int></param>
+			<param name="columns"><int>20</int></param>
+			<param name="autocompletion-height"><int>150</int></param>
+			<param name="font"><font>normal</font></param>
+			<theme name="renderer" ref="-defaults"/>
+		</theme>
+		
+		
+		
+        <param name="inputMap"><inputMap>enterInputMapDef</inputMap></param>
+    </theme>
+    
+	
+</themes>
