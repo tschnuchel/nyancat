@@ -2,3 +2,4 @@ bin/*
 /bin/
 /db/
 db/*
+**/.DS-Store
