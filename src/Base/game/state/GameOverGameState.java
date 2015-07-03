@@ -1,5 +1,7 @@
 package Base.game.state;
 
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -10,6 +12,7 @@ import Base.TWLSlick.BasicTWLGameState;
 import Base.TWLSlick.RootPane;
 import Base.game.Constants;
 import Base.game.DataBaseManager;
+import Base.game.DataBaseManager.Scoring;
 import Base.menu.ButtonAction;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
@@ -21,11 +24,13 @@ public class GameOverGameState extends BasicTWLGameState {
 	private Button retryButton, menuButton;
 	private GameContainer container;
 	private StateBasedGame game;
+	private List<Scoring> scores;
 	
 	public GameOverGameState(int uniqueID) {
 		
 		this.id = uniqueID;
 		this.score = 0;
+		this.scores = DataBaseManager.getDefaultManager().getTop(10);
 	}
 	
 	@Override
@@ -36,6 +41,14 @@ public class GameOverGameState extends BasicTWLGameState {
 	}
 
 	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		
+		super.enter(container, game);
+		
+		this.scores = DataBaseManager.getDefaultManager().getTop(10);
+	}
+	
+	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		
 		
@@ -44,7 +57,13 @@ public class GameOverGameState extends BasicTWLGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		
-		g.drawString(new Integer(score).toString(), 50, 50);
+		int i = 1;
+		for (Scoring scoring : scores) {
+			
+			String line = i + ": " + scoring.getScore() + " (" + scoring.getNickname() + ")";
+			g.drawString(line, 50, 50 + i * 20);
+			i++;
+		}
 	}
 
 	@Override

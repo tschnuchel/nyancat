@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Point;
 
 import Base.game.Constants;
 import Base.game.ResourceManager;
+import Base.logic.JazzGoodie;
 import Base.logic.Planet;
 import Base.movement.CircularMovement;
 import Base.movement.LinearMovement;
@@ -70,9 +71,11 @@ public class SimpleObstacleGenerator extends ObstacleGenerator {
 			Image image = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_IMAGE2);
 			Image crashImage1 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH1);
 			Image crashImage2 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH2);
-			Movement planetMovement = new CircularMovement(cycleMillis, radius, clockwise, 0, movement);
-			Planet planet = new Planet(planetRadius, image, crashImage1, crashImage2, center, planetMovement);
+//			Movement planetMovement = new CircularMovement(cycleMillis, radius, clockwise, 0, movement);
+			Planet planet = new Planet(planetRadius, image, crashImage1, crashImage2, center, movement);
 			notifyListeners(planet);
+			
+//			notifyListeners(new JazzGoodie(center, movement));
 		}
 	}
 }

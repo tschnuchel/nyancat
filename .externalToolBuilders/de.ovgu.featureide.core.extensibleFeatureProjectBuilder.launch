@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ant.AntBuilderLaunchConfigurationType">
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="false"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_DISABLED_BUILDER" value="de.ovgu.featureide.core.extensibleFeatureProjectBuilder"/>
+<mapAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS">
+<mapEntry key="build" value="src"/>
+<mapEntry key="composer" value="de.ovgu.featureide.preprocessor.munge"/>
+<mapEntry key="equations" value="configs"/>
+<mapEntry key="source" value="features"/>
+</mapAttribute>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+</launchConfiguration>

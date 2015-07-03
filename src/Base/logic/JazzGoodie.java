@@ -60,7 +60,6 @@ public class JazzGoodie extends Obstacle {
 	public void acceptCollidable(Cat collidable) {
 		
 		isValid = false;
-		
 		MusicManager.getDefaultMusicManager().playSoundEffect(SOUND_EFFECT_SAX);
 	}
 

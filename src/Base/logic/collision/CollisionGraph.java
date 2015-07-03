@@ -8,19 +8,19 @@ import java.util.Set;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import Base.logic.JazzGoodie;
+
 public class CollisionGraph {
 
 	private class Collision {
 		
 		private Collidable collidable;
 		private float minDistance;
-		private CollisionDelegate delegate;
 
-		public Collision(Collidable collidable, float minDistance, CollisionDelegate delegate) {
+		public Collision(Collidable collidable, float minDistance) {
 
 			this.collidable = collidable;
 			this.minDistance = minDistance;
-			this.delegate = delegate;
 		}
 
 		public Collidable getCollidable() {
@@ -30,17 +30,45 @@ public class CollisionGraph {
 		public float getMinDistance() {
 			return minDistance;
 		}
+	}
+	
+	private class MatrixEntry {
+		
+		private List<Collision> collisions;
+		private CollisionDelegate delegate;
+
+		public MatrixEntry(CollisionDelegate delegate) {
+			
+			this.collisions = new LinkedList<CollisionGraph.Collision>();
+			this.delegate = delegate;
+		}
 		
 		public CollisionDelegate getDelegate() {
+			
 			return delegate;
+		}
+		
+		public List<Collision> getCollisions() {
+			
+			return collisions;
+		}
+		
+		public void addCollision(Collision collision) {
+			
+			collisions.add(collision);
+		}
+
+		public void removeCollision(Collision collision) {
+			
+			collisions.remove(collision);
 		}
 	}
 	
-	private LinkedHashMap<Collidable, Set<Collision>> matrix;
+	private LinkedHashMap<Collidable, MatrixEntry> matrix;
 	
 	public CollisionGraph() {
 		
-		this.matrix = new LinkedHashMap<Collidable, Set<Collision>>();
+		this.matrix = new LinkedHashMap<Collidable, MatrixEntry>();
 	}
 	
 	public void addVertex(Collidable collidable, CollisionDelegate delegate) {
@@ -49,7 +77,7 @@ public class CollisionGraph {
 		matrix.remove(collidable);
 
 		// collect collisions here
-		Set<Collision> collisions = new LinkedHashSet<CollisionGraph.Collision>();
+		MatrixEntry entry = new MatrixEntry(delegate);
 		
 		// update possible collisions
 		Rectangle box1 = collidable.getBoundingBox();
@@ -60,38 +88,43 @@ public class CollisionGraph {
 
 			if (collidable.shouldCollideWith(collidable2)) {
 				
-				collisions.add(new Collision(collidable2, minDistance, delegate));
+				entry.addCollision(new Collision(collidable2, minDistance));
 			}
 			
 			if (collidable2.shouldCollideWith(collidable)) {
 				
-				matrix.get(collidable2).add(new Collision(collidable, minDistance, null));
+				MatrixEntry otherEntry = matrix.get(collidable2);
+				otherEntry.addCollision(new Collision(collidable, minDistance));
 			}
 		}
 
 		// add new entry
-		matrix.put(collidable, collisions);
+		matrix.put(collidable, entry);
 	}
 	
 	public void removeVertex(Collidable collidable) {
 
+		
 		if ((collidable == null) || (matrix.get(collidable) == null)) {
 			
 			return;
 		}
 		
-		for (Collision collision : matrix.get(collidable)) {
+		// remove entries in lists of other collidables
+		for (Collision collision : matrix.get(collidable).getCollisions()) {
 			
-			for (Collision collision2 : matrix.get(collision.getCollidable())) {
+			MatrixEntry otherEntry = matrix.get(collision.getCollidable());
+			for (Collision collision2 : otherEntry.getCollisions()) {
 				
 				if (collision2.getCollidable() == collidable) {
 					
-					matrix.get(collision.getCollidable()).remove(collision2);
+					otherEntry.removeCollision(collision2);
 					break;
 				}
 			}
 		}
 
+		// remove entries with key collidable
 		matrix.remove(collidable);
 	}
 	
@@ -102,7 +135,8 @@ public class CollisionGraph {
 		
 		for (Collidable collidable : matrix.keySet()) {
 			
-			for (Collision collision : matrix.get(collidable)) {
+			MatrixEntry entry = matrix.get(collidable);
+			for (Collision collision : entry.getCollisions()) {
 				
 				Rectangle b1 = collidable.getBoundingBox();
 				Rectangle b2 = collision.getCollidable().getBoundingBox();
@@ -117,11 +151,11 @@ public class CollisionGraph {
 					if (collidable.getBoundingShape().intersects(collision.getCollidable().getBoundingShape())) {
 						collidable.collidedWith(collision.getCollidable());
 						
-						CollisionDelegate delegate = collision.getDelegate();
+						CollisionDelegate delegate = entry.getDelegate();
 						if (delegate != null) {
 							
 							collided.add(collidable);
-							delegates.add(collision.getDelegate());
+							delegates.add(entry.getDelegate());
 						}
 					}
 				}

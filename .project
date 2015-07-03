@@ -15,15 +15,15 @@
 				</dictionary>
 				<dictionary>
 					<key>build</key>
-					<value>src</value>
+					<value>build</value>
 				</dictionary>
 				<dictionary>
 					<key>equations</key>
-					<value>configs</value>
+					<value>equations</value>
 				</dictionary>
 				<dictionary>
 					<key>source</key>
-					<value>features</value>
+					<value>src</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>

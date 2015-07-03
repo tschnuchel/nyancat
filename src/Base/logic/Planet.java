@@ -91,10 +91,7 @@ public class Planet extends Obstacle {
 	@Override
 	public void collidedWith(Collidable collidable) {
 
-		if (!this.collided) {
-			
-			collidable.acceptCollidable(this);
-		}
+		collidable.acceptCollidable(this);
 	}
 
 	public void acceptCollidable(Cat player) {

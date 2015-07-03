@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class DataBaseManager {
 		
 		private String nickname;
 		private int score;
-		private Date date;
+		private Timestamp time;
 		
-		public Scoring(String nickname, int score, Date date) {
+		public Scoring(String nickname, int score, Timestamp time) {
 			super();
 			this.nickname = nickname;
 			this.score = score;
-			this.date = date;
+			this.time = time;
 		}
 
 		public String getNickname() {
@@ -37,8 +38,14 @@ public class DataBaseManager {
 			return score;
 		}
 
-		public Date getDate() {
-			return date;
+		public Timestamp getTime() {
+			return time;
+		}
+		
+		@Override
+		public String toString() {
+
+			return nickname + " " + score + " " + time;
 		}
 	}
 	
@@ -46,17 +53,42 @@ public class DataBaseManager {
 		
 		this.nickname = Constants.GAME_DEFAULT_NICKNAME;
 
-		String url = "jdbc:mysql://simon-walser.de:3306/nayan_simon";
-		String user = "torben_simon";
-		String password = "3tQ7yYQBCBVjVaVU";
+		// load db driver
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		// connect to db
+		String url = "jdbc:hsqldb:db/score.db";
+		String user = "sa";
+		String password = "";
 		try {
 			
 			this.connection = DriverManager.getConnection(url, user, password);
-			
+
 		} catch (SQLException e) {
 			
 			this.connection = null;
 			e.printStackTrace();
+		}
+		
+		if (this.connection != null) {
+			
+			try {
+				
+				// create table if neccesary
+				Statement st = connection.createStatement();
+				int bla = st.executeUpdate("CREATE TABLE IF NOT EXISTS scores(id INTEGER IDENTITY, nickname VARCHAR(256), score INTEGER, time TIMESTAMP default NOW, version INTEGER)");
+				System.out.println("HSQLDB " + bla);
+				st.close();
+				this.connection.commit();
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -77,9 +109,10 @@ public class DataBaseManager {
 			if (connection != null) {
 				
 				Statement statement = connection.createStatement();
-				String s = "insert into scores values(0, \"" + nickname +  "\", " + score + ", now(), " + Constants.GAME_VERSION + ");";
+				String s = "insert into scores (nickname, score, version) values('" + nickname +  "', " + score + "," + Constants.GAME_VERSION + ");";
 				System.out.println(s);
 				statement.execute(s);
+				connection.commit();
 			}
 		} catch (SQLException e) {
 
@@ -102,7 +135,7 @@ public class DataBaseManager {
 					
 					String nickname = rs.getString("nickname");
 					int score = rs.getInt("score");
-					Date date = rs.getDate("date");
+					Timestamp date = rs.getTimestamp("time");
 					result.add(new Scoring(nickname, score, date));
 					System.out.println(nickname + " " + score + " " + date);
 				}
@@ -118,9 +151,14 @@ public class DataBaseManager {
 	public void close() {
 		
 		if (connection != null) {
-			
 			try {
 				
+				Statement st = connection.createStatement();
+				
+				// db writes out to files and performs clean shuts down
+				// otherwise there will be an unclean shutdown
+				// when program ends
+				st.execute("SHUTDOWN");
 				connection.close();
 				
 			} catch (SQLException e) {
@@ -134,7 +172,7 @@ public class DataBaseManager {
 		return nickname;
 	}
 
-	public void setNickname(String nickname) {
+	public void setPlayerName(String nickname) {
 		this.nickname = nickname;
 	}
 	

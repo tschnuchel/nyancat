@@ -24,7 +24,7 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 		obstacles = new LinkedList<Obstacle>();
 		collisionGraph = new CollisionGraph();
 		collisionGraph.addVertex(player, null);
-//		generator = new SimpleObstacleGenerator(100000000);
+//		generator = new SimpleObstacleGenerator(1000);
 //		generator = new LinearObstaclegenerator();
 		generator = new CrazyObstacleGenerator();
 		generator.addListener(this);
@@ -82,9 +82,8 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 
 	@Override
 	public void didEnterMode(Cat cat, CatMode mode) {
-		
+
 		MusicManager.getDefaultMusicManager().change();
-		// TODO slow level down
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 	
 	@Override
 	public void didCollide(Collidable collidable) {
-		
+
 		this.collisionGraph.removeVertex(collidable);
 	}
 }
