@@ -1,13 +1,12 @@
 package Base.level;
 
-import Base.game.ResourceManager;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
+import Base.game.ResourceManager;
 import Base.logic.Obstacle;
 import Base.logic.Planet;
 import Base.movement.CircularMovement;

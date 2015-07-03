@@ -1,5 +1,8 @@
 package Base.level;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Point;
+
 import Base.game.Constants;
 import Base.game.ResourceManager;
 import Base.logic.JazzGoodie;
@@ -8,9 +11,6 @@ import Base.logic.Planet;
 import Base.movement.CircularMovement;
 import Base.movement.LinearMovement;
 import Base.movement.Movement;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Point;
 
 public class CrazyObstacleGenerator extends ObstacleGenerator{
 
@@ -51,7 +51,8 @@ public class CrazyObstacleGenerator extends ObstacleGenerator{
 			}
 			
 			Planet planet = new Planet(radius, image, crashImage1, crashImage2, center, movement);
-			counter = (int) (100 + Math.random() * 1000);
+//			counter = (int) (100 + Math.random() * 1000);
+			counter = 500;
 			
 			notifyListeners(planet);
 		}

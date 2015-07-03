@@ -1,14 +1,14 @@
 package Base.logic;
 
-import Base.movement.Movement;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Transform;
+
+import Base.logic.collision.Collidable;
+import Base.movement.Movement;
 
 public class Planet extends Obstacle {
 
@@ -82,27 +82,50 @@ public class Planet extends Obstacle {
 	}
 
 	@Override
-	public void setCollided(boolean collided) {
-		
-		if (collided) {
-			
-			Point collisionSpeed = movement.getCurrentSpeed();
-			
-			float cX = collisionSpeed.getX();
-			float cY = collisionSpeed.getY();
-			collisionSpeed1 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
-			collisionSpeed2 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
-			
-			centerHalf1 = new Point(boundingBox.getX(), boundingBox.getY());
-			centerHalf2 = new Point(boundingBox.getX(), boundingBox.getY());
-			
-			this.collided = collided;
-		}
+	public boolean shouldCollideWith(Collidable collidable) {
+
+		return collidable.getClass() == Cat.class ||
+				collidable.getClass() == Note.class;
 	}
 
 	@Override
-	public void acceptPlayer(Cat player) {
+	public void collidedWith(Collidable collidable) {
 
-		player.removeLife();
+		if (!this.collided) {
+			
+			collidable.acceptCollidable(this);
+		}
 	}
+
+	public void acceptCollidable(Cat player) {
+		
+		Point collisionSpeed = movement.getCurrentSpeed();
+		
+		float cX = collisionSpeed.getX();
+		float cY = collisionSpeed.getY();
+		collisionSpeed1 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
+		collisionSpeed2 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
+		
+		centerHalf1 = new Point(boundingBox.getX(), boundingBox.getY());
+		centerHalf2 = new Point(boundingBox.getX(), boundingBox.getY());
+		
+		this.collided = true;
+	}
+	
+	@Override
+	public void acceptCollidable(Note collidable) {
+		
+		Point collisionSpeed = movement.getCurrentSpeed();
+		
+		float cX = collisionSpeed.getX();
+		float cY = collisionSpeed.getY();
+		collisionSpeed1 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
+		collisionSpeed2 = new Point((float)(Math.random() * 0.5 + 0.5) * cX, (float)(Math.random() * 0.5 + 0.5) * cY);
+		
+		centerHalf1 = new Point(boundingBox.getX(), boundingBox.getY());
+		centerHalf2 = new Point(boundingBox.getX(), boundingBox.getY());
+		
+		this.collided = true;
+	}
+	
 }

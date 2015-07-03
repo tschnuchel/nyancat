@@ -1,8 +1,5 @@
 package Base.game.state;
 
-import Base.game.Constants;
-import Base.game.ResourceManager;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,6 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import Base.TWLSlick.BasicTWLGameState;
+import Base.game.Constants;
+import Base.game.ResourceManager;
 
 public class CreditsGameState extends BasicTWLGameState {
 

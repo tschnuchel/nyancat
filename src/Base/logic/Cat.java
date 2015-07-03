@@ -1,21 +1,24 @@
 package Base.logic;
 
-import Base.logic.CatListener.CatMode;
-import Base.game.Constants;
-import Base.game.Drawable;
-import Base.game.KeyboardHandler;
-import Base.game.ResourceManager;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
+
+import Base.game.Constants;
+import Base.game.Drawable;
+import Base.game.KeyboardHandler;
+import Base.game.ResourceManager;
+import Base.logic.CatListener.CatMode;
+import Base.logic.collision.Collidable;
+import Base.movement.LinearMovement;
 
 public class Cat extends Movable implements Drawable, KeyboardHandler {
 
@@ -33,7 +36,6 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 	private int jazzCount = 0;
 	private CatListener listener;
 	private CatMode mode;
-	private int jazzModeCounter = 0;
 	
 	public Cat() {
 		
@@ -80,15 +82,34 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 		originalAnimation.start();
 	}
 	
-	public void collide(CollidableBACKUP collidable) {
-		
-		collidable.acceptPlayer(this);
+	@Override
+	public boolean shouldCollideWith(Collidable collidable) {
+
+		return true;
 	}
 	
 	@Override
-	public void acceptPlayer(Cat player) {
+	public void collidedWith(Collidable collidable) {
 		
-		// do nothing
+		collidable.acceptCollidable(this);
+	}
+	
+	@Override
+	public void acceptCollidable(Planet planet) {
+		
+		this.removeLife();
+	}
+	
+	@Override
+	public void acceptCollidable(LifeUpGoodie collidable) {
+		
+		this.setLifes(this.getLifes() + 1);
+	}
+
+	@Override
+	public void acceptCollidable(JazzGoodie collidable) {
+
+		this.setJazzCount(this.getJazzCount() + 1);
 	}
 
 	public void removeLife() {
@@ -148,7 +169,6 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 		if ((this.jazzCount >= 5) && (this.mode != CatMode.JAZZ)) {
 			
 			this.mode = CatMode.JAZZ;
-			jazzModeCounter = 10000;
 			listener.didEnterMode(this, CatMode.JAZZ);
 			
 			this.jazzCount = 0;
@@ -175,12 +195,6 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 	public Shape getBoundingShape() {
 
 		return boundingShape;
-	}
-
-	@Override
-	public void setCollided(boolean collided) {
-		
-		// does nothing
 	}
 
 	@Override
@@ -304,13 +318,6 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 			rainbowAlternate = !rainbowAlternate;
 			rainbowCounter = 400;
 		}
-		
-		jazzModeCounter -=delta;
-		if ((jazzModeCounter <= 0) && (mode == CatMode.JAZZ)) {
-			
-			this.mode = CatMode.ORIGINAL;
-			listener.didEnterMode(this, this.mode);
-		}
 	}
 
 	public float getMaxSpeedX() {
@@ -347,6 +354,15 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 			arrows[3] = !released;
 			break;
 
+		case Input.KEY_SPACE:
+			
+			if (released) {
+				
+				Note note = new Note(new Point(getBoundingBox().getMaxX(), getBoundingBox().getCenterY()), new LinearMovement(new Point(getMaxSpeedX(), speedY)));
+				listener.didShoot(note);
+			}
+			break;
+			
 		default:
 			break;
 		}

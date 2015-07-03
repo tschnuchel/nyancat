@@ -1,11 +1,12 @@
 package Base.logic;
 
-import Base.movement.Movement;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
+
+import Base.logic.collision.Collidable;
+import Base.movement.Movement;
 
 public class LifeUpGoodie extends Obstacle {
 
@@ -46,18 +47,21 @@ public class LifeUpGoodie extends Obstacle {
 	}
 
 	@Override
-	public void setCollided(boolean collided) {
-		
-		if (collided) {
-			
-			isValid = false;
-		}
+	public boolean shouldCollideWith(Collidable collidable) {
+
+		return collidable.getClass() == Cat.class;
 	}
 
 	@Override
-	public void acceptPlayer(Cat player) {
+	public void collidedWith(Collidable collidable) {
+		
+		collidable.acceptCollidable(this);
+	}
 
-		player.setLifes(player.getLifes() + 1);
+	@Override
+	public void acceptCollidable(Cat collidable) {
+		
+		isValid = false;
 	}
 
 }

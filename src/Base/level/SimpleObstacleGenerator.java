@@ -1,15 +1,12 @@
 package Base.level;
 
-import java.util.List;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
 import Base.game.Constants;
 import Base.game.ResourceManager;
-import Base.logic.Obstacle;
 import Base.logic.Planet;
-import Base.movement.GravitationMovement;
+import Base.movement.CircularMovement;
 import Base.movement.LinearMovement;
 import Base.movement.Movement;
 
@@ -33,6 +30,7 @@ public class SimpleObstacleGenerator extends ObstacleGenerator {
 			
 			counter = rate;
 			
+			/*
 			float radius = 40;
 			Image image = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_IMAGE2);
 			Image crashImage1 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH1);
@@ -54,18 +52,27 @@ public class SimpleObstacleGenerator extends ObstacleGenerator {
 			planet1.setMovement(gravityMovement2);
 			notifyListeners(planet2);
 			notifyListeners(planet1);
+			*/
 			
-//			float radius = 60;
-//			Point center = new Point(Constants.SCREEN_WIDTH + radius, Constants.SCREEN_HEIGHT / 2f);
-//			int planetCount = 5;
-//			int cycleMillis = 5000;
-//			boolean clockwise = false;
-//			Movement movement = new LinearMovement(new Point(-100, 0));
+			float radius = 60;
+			Point center = new Point(Constants.SCREEN_WIDTH + radius, Constants.SCREEN_HEIGHT / 2f);
+			int planetCount = 5;
+			int cycleMillis = 5000;
+			boolean clockwise = false;
+			Movement movement = new LinearMovement(new Point(-100, 0));
 //			List<Obstacle> galaxy = ObstacleGenerator.createGalaxy(center, planetCount, radius, cycleMillis, clockwise, movement);
 //			for (Obstacle obstacle : galaxy) {
 //				
 //				notifyListeners(obstacle);
 //			}
+			
+			float planetRadius = 40;
+			Image image = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_IMAGE2);
+			Image crashImage1 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH1);
+			Image crashImage2 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH2);
+			Movement planetMovement = new CircularMovement(cycleMillis, radius, clockwise, 0, movement);
+			Planet planet = new Planet(planetRadius, image, crashImage1, crashImage2, center, planetMovement);
+			notifyListeners(planet);
 		}
 	}
 }

@@ -1,15 +1,5 @@
 package Base.game.state;
 
-import Base.game.Constants;
-import Base.game.DataBaseManager;
-import Base.game.InputManager;
-import Base.game.KeyboardHandler;
-import Base.game.ResourceManager;
-import Base.level.Level;
-import Base.logic.Cat;
-import Base.logic.Obstacle;
-import Base.music.MusicManager;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,6 +12,16 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import Base.TWLSlick.BasicTWLGameState;
+import Base.game.Constants;
+import Base.game.DataBaseManager;
+import Base.game.InputManager;
+import Base.game.KeyboardHandler;
+import Base.game.ResourceManager;
+import Base.level.Level;
+import Base.logic.Cat;
+import Base.logic.Note;
+import Base.logic.Obstacle;
+import Base.music.MusicManager;
 
 public class GameViewGameState extends BasicTWLGameState implements KeyboardHandler {
 
@@ -49,11 +49,12 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		musicManager = MusicManager.getDefaultMusicManager();
 		inputManager = new InputManager(container, game);
 		
-		int[] catKeys = {Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT};
+		int[] catKeys = {Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_SPACE};
 		inputManager.register(cat, catKeys);
 		
 		inputManager.register(this, Input.KEY_F);
 		inputManager.register(this, Input.KEY_P);
+		inputManager.register(this, Input.KEY_SPACE);
 	}
 	
 	@Override
@@ -107,7 +108,7 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 
 	private void checkCollisions() {
 		
-		level.getCollisionScene().triggerCollisionDelegates();
+		level.getCollisionGraph().checkCollisions();
 	}
 
 	private void updateLevel(int delta) {
@@ -205,7 +206,7 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 			}
 			
 			break;
-
+			
 		default:
 			break;
 		}

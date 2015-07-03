@@ -1,6 +1,8 @@
 package Base.logic;
 
-public abstract class Movable extends CollidableBACKUP {
+import Base.logic.collision.Collidable;
+
+public abstract class Movable extends Collidable{
 
 	public abstract void updatePosition(int delta);
 	

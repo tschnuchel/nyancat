@@ -1,10 +1,5 @@
 package Base.game;
 
-import Base.game.state.CreditsGameState;
-import Base.game.state.GameOverGameState;
-import Base.game.state.GameViewGameState;
-import Base.game.state.MenuGameState;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +12,10 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import Base.TWLSlick.TWLStateBasedGame;
+import Base.game.state.CreditsGameState;
+import Base.game.state.GameOverGameState;
+import Base.game.state.GameViewGameState;
+import Base.game.state.MenuGameState;
 
 public class NyanGame extends TWLStateBasedGame {
 

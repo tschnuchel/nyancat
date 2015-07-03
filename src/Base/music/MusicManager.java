@@ -3,10 +3,6 @@ package Base.music;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.print.attribute.HashAttributeSet;
-
-import org.newdawn.slick.Music;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -34,7 +30,7 @@ public class MusicManager {
 		intro = createAudio("OGG", "/res/sound/nyan_intro_original.ogg");
 		loopOriginal = createAudio("OGG", "/res/sound/nyan_loop_original.ogg");
 		loopJazz = createAudio("OGG", "/res/sound/nyan_loop_jazz.ogg");
-		loopOriginal.playAsMusic(1.0f, 2.0f, true);
+		loopOriginal.playAsMusic(1.0f, 1.0f, true);
 	}
 	
 	private Audio createAudio(String format, String path) {

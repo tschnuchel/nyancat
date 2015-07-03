@@ -1,11 +1,10 @@
 package Base.level;
 
-import Base.game.Constants;
-import Base.game.ResourceManager;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
+import Base.game.Constants;
+import Base.game.ResourceManager;
 import Base.logic.Planet;
 import Base.movement.LinearMovement;
 import Base.movement.Movement;

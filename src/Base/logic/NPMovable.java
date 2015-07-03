@@ -1,10 +1,10 @@
 package Base.logic;
 
-import Base.movement.Movement;
-
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+
+import Base.movement.Movement;
 
 public abstract class NPMovable extends Movable {
 

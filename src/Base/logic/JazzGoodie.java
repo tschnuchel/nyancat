@@ -1,14 +1,15 @@
 package Base.logic;
 
-import Base.game.ResourceManager;
-import Base.movement.Movement;
-import Base.music.MusicManager;
-
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;
+
+import Base.game.ResourceManager;
+import Base.logic.collision.Collidable;
+import Base.movement.Movement;
+import Base.music.MusicManager;
 
 public class JazzGoodie extends Obstacle {
 
@@ -44,22 +45,25 @@ public class JazzGoodie extends Obstacle {
 	}
 
 	@Override
-	public void setCollided(boolean collided) {
+	public boolean shouldCollideWith(Collidable collidable) {
+
+		return collidable.getClass() == Cat.class;
+	}
+	
+	@Override
+	public void collidedWith(Collidable collidable) {
 		
-		if (collided) {
-			
-			isValid = false;
-		}
+		collidable.acceptCollidable(this);
 	}
 
 	@Override
-	public void acceptPlayer(Cat player) {
+	public void acceptCollidable(Cat collidable) {
 		
-		player.setJazzCount(player.getJazzCount() + 1);
+		isValid = false;
 		
 		MusicManager.getDefaultMusicManager().playSoundEffect(SOUND_EFFECT_SAX);
 	}
-	
+
 	@Override
 	public void updatePosition(int delta) {
 		
@@ -71,4 +75,6 @@ public class JazzGoodie extends Obstacle {
 		
 		super.updatePosition(delta);
 	}
+
+
 }

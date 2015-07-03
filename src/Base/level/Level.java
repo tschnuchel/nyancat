@@ -5,25 +5,26 @@ import java.util.List;
 
 import Base.logic.Cat;
 import Base.logic.CatListener;
-import Base.logic.CollidableBACKUP;
-import Base.logic.CollisionDelegate;
-import Base.logic.CollisionScene;
 import Base.logic.Obstacle;
+import Base.logic.collision.Collidable;
+import Base.logic.collision.CollisionDelegate;
+import Base.logic.collision.CollisionGraph;
 import Base.music.MusicManager;
 
-public class Level implements ObstacleGeneratorListener, CollisionDelegate, CatListener {
+public class Level implements ObstacleGeneratorListener, CatListener, CollisionDelegate {
 
 	private ObstacleGenerator generator;
 	private LinkedList<Obstacle> obstacles;
-	private CollisionScene collisionScene;
+	private CollisionGraph collisionGraph;
 	private Cat player;
 	
 	public Level(Cat player) {
 		
 		this.player = player;
 		obstacles = new LinkedList<Obstacle>();
-		collisionScene = new CollisionScene(player);
-//		generator = new SimpleObstacleGenerator(500000000);
+		collisionGraph = new CollisionGraph();
+		collisionGraph.addVertex(player, null);
+//		generator = new SimpleObstacleGenerator(100000000);
 //		generator = new LinearObstaclegenerator();
 		generator = new CrazyObstacleGenerator();
 		generator.addListener(this);
@@ -50,7 +51,7 @@ public class Level implements ObstacleGeneratorListener, CollisionDelegate, CatL
 		for (Obstacle obstacle : removeThese) {
 			
 			obstacles.remove(obstacle);
-			collisionScene.removeCollidable(obstacle);
+			collisionGraph.removeVertex(obstacle);
 		}
 	}
 	
@@ -63,24 +64,15 @@ public class Level implements ObstacleGeneratorListener, CollisionDelegate, CatL
 	public void generatorDidGenerateObstacle(ObstacleGenerator generator, Obstacle obstacle) {
 		
 		obstacles.add(obstacle);
-		collisionScene.addCollidable(obstacle, this);
+		collisionGraph.addVertex(obstacle, this);
 	}
 
-	public CollisionScene getCollisionScene() {
-		return collisionScene;
+	public CollisionGraph getCollisionGraph() {
+		return collisionGraph;
 	}
 
 	public Cat getPlayer() {
 		return player;
-	}
-	
-	@Override
-	public void didCollideWithPlayer(CollidableBACKUP collidable) {
-
-		collisionScene.removeCollidable(collidable);
-		collidable.setCollided(true);
-		
-		player.collide(collidable);
 	}
 	
 	public boolean isGameOver() {
@@ -93,5 +85,18 @@ public class Level implements ObstacleGeneratorListener, CollisionDelegate, CatL
 		
 		MusicManager.getDefaultMusicManager().change();
 		// TODO slow level down
+	}
+
+	@Override
+	public void didShoot(Obstacle obstacle) {
+		
+		obstacles.add(obstacle);
+		collisionGraph.addVertex(obstacle, this);
+	}
+	
+	@Override
+	public void didCollide(Collidable collidable) {
+		
+		this.collisionGraph.removeVertex(collidable);
 	}
 }

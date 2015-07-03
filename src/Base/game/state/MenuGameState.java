@@ -1,11 +1,5 @@
 package Base.game.state;
 
-import Base.game.Constants;
-import Base.game.DataBaseManager;
-
-import Base.menu.ButtonAction;
-import Base.menu.CallbackAction;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,13 +8,16 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import Base.TWLSlick.BasicTWLGameState;
+import Base.TWLSlick.RootPane;
+import Base.game.Constants;
+import Base.game.DataBaseManager;
+import Base.menu.ButtonAction;
+import Base.menu.CallbackAction;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.EditField;
 import de.matthiasmann.twl.Event;
-
-import Base.TWLSlick.BasicTWLGameState;
-import Base.TWLSlick.RootPane;
 
 public class MenuGameState extends BasicTWLGameState {
 	

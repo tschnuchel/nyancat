@@ -1,8 +1,8 @@
 package Base.movement;
 
-import Base.logic.Movable;
-
 import org.newdawn.slick.geom.Point;
+
+import Base.logic.Movable;
 
 public class GravitationMovement extends Movement {
 
