@@ -88,7 +88,7 @@ public class GameOverGameState extends BasicTWLGameState {
 			@Override
 			public void run() {
 				
-				GameState gameViewGameState = game.getState(Constants.ID_GAMEVIEW);
+				GameViewGameState gameViewGameState = (GameViewGameState) game.getState(Constants.ID_GAMEVIEW);
 				try {
 					
 					gameViewGameState.init(container, game);

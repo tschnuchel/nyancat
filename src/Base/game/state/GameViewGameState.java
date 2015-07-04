@@ -26,8 +26,9 @@ import Base.music.MusicManager;
 public class GameViewGameState extends BasicTWLGameState implements KeyboardHandler {
 
 	private int id;
-	
+	/*if[Audio]*/
 	private MusicManager musicManager;
+	/*end[Audio]*/
 	private InputManager inputManager;
 	private Cat cat;
 	private int score;
@@ -46,7 +47,10 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		score = 0;
 		level = new Level(cat);
 		
+		/*if[Audio]*/
 		musicManager = MusicManager.getDefaultMusicManager();
+		/*end[Audio]*/
+		
 		inputManager = new InputManager(container, game);
 		
 		int[] catKeys = {Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_SPACE};
@@ -155,8 +159,9 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
-
+		/*if[Hintergrundmusik]*/
 		musicManager.change();
+		/*end[Hintergrundmusik]*/
 		super.mouseClicked(button, x, y, clickCount);
 	}
 	

@@ -21,17 +21,24 @@ public class MusicManager {
 
 			defaultMusicManager = new MusicManager();
 		}
-		
+		/*if[Hintergrundmusik]*/
+		if(!defaultMusicManager.isPlayingOriginal){
+			defaultMusicManager.change();
+		}
+		/*end[Hintergrundmusik]*/
 		return defaultMusicManager;
 	}
 	
 	private MusicManager() {
 		
+		/*if[Hintergrundmusik]*/
 		intro = createAudio("OGG", "/res/sound/nyan_intro_original.ogg");
 		loopOriginal = createAudio("OGG", "/res/sound/nyan_loop_original.ogg");
 		loopJazz = createAudio("OGG", "/res/sound/nyan_loop_jazz.ogg");
 		loopOriginal.playAsMusic(1.0f, 1.0f, true);
+		/*end[Hintergrundmusik]*/
 	}
+	
 	
 	private Audio createAudio(String format, String path) {
 		
@@ -48,9 +55,8 @@ public class MusicManager {
 		
 		return audio;
 	}
-	
+	/*if[Hintergrundmusik]*/
 	public void change() {
-		
 		if (isPlayingOriginal) {
 			
 			float position = loopOriginal.getPosition() * 48f / 27f;
@@ -66,7 +72,9 @@ public class MusicManager {
 		
 		isPlayingOriginal = !isPlayingOriginal;
 	}
+	/*end[Hintergrundmusik]*/
 	
+	/*if[Soundeffekte]*/
 	public boolean loadSoundEffect(String format, String ref) {
 		
 		if (this.cache.containsKey(ref)) {
@@ -82,6 +90,7 @@ public class MusicManager {
 		
 		return effect != null;
 	}
+	/*end[Soundeffekte]*/
 	
 	public void playSoundEffect(String ref) {
 		
