@@ -19,6 +19,8 @@ public class ResourceManager {
 	public static String CAT_CREDITS = "cat credits";
 	public static String SAXOPHON = "saxophon";
 	public static String NOTE = "note";
+	public static String PAUSE = "pause";
+	public static String MURPHY = "murphy";
 	
 	private LinkedHashMap<String, Object> resources;
 	
@@ -61,6 +63,8 @@ public class ResourceManager {
 		resources.put(CAT_CREDITS, new Image("res/image/Nyan_credits.png"));
 		resources.put(SAXOPHON, new Image("res/image/saxophon.png"));
 		resources.put(NOTE, new Image("res/image/note.png"));
+		resources.put(PAUSE, new Image("res/image/pause.png"));
+		resources.put(MURPHY, new Image("res/image/murphy.png"));
 	}
 	
 	public Object getResourceNamed(String name) {

@@ -71,7 +71,6 @@ public class MenuGameState extends BasicTWLGameState {
 				DataBaseManager.getDefaultManager().setPlayerName(editField.getText());
 				FadeOutTransition leave = new FadeOutTransition(Color.black, 100);
 				FadeInTransition enter = new FadeInTransition(Color.black, 100);
-				
 				game.enterState(Constants.ID_GAMEVIEW, leave, enter);
 				game.getState(Constants.ID_GAMEVIEW).setUpdatePaused(false);
 			}
