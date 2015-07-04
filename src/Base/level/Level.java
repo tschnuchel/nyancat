@@ -13,7 +13,7 @@ import Base.music.MusicManager;
 
 public class Level implements ObstacleGeneratorListener, CatListener, CollisionDelegate {
 
-	private ObstacleGenerator generator;
+	private CrazyObstacleGenerator generator;
 	private LinkedList<Obstacle> obstacles;
 	private CollisionGraph collisionGraph;
 	private Cat player;
@@ -24,7 +24,7 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 		obstacles = new LinkedList<Obstacle>();
 		collisionGraph = new CollisionGraph();
 		collisionGraph.addVertex(player, null);
-//		generator = new SimpleObstacleGenerator(1000);
+//		generator = new SimpleObstacleGenerator(500000000);
 //		generator = new LinearObstaclegenerator();
 		generator = new CrazyObstacleGenerator();
 		generator.addListener(this);
@@ -84,6 +84,7 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 	public void didEnterMode(Cat cat, CatMode mode) {
 
 		MusicManager.getDefaultMusicManager().change();
+		generator.setMode(mode);
 	}
 
 	@Override

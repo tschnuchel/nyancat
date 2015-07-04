@@ -12,6 +12,7 @@ public class ResourceManager {
 	public static String CAT_ANIMATION_JAZZ = "cat animation jazz";
 	public static String PLANET_IMAGE = "planet image";
 	public static String PLANET_IMAGE2 = "planet image2";
+	public static String PLANET_JAZZ_IMAGE = "planet jazz image";
 	public static String PLANET_CRASH1 = "planet crash1";
 	public static String PLANET_CRASH2 = "planet crash2";
 	public static String BACKGROUND = "background";
@@ -53,6 +54,7 @@ public class ResourceManager {
 		
 		resources.put(PLANET_IMAGE, new Image("res/image/planet.png"));
 		resources.put(PLANET_IMAGE2, new Image("res/image/planet2.png"));
+		resources.put(PLANET_JAZZ_IMAGE, new Image("res/image/jazz_planet.png"));
 		resources.put(PLANET_CRASH1, new Image("res/image/planet_crash_1.png"));
 		resources.put(PLANET_CRASH2, new Image("res/image/planet_crash_2.png"));
 		resources.put(BACKGROUND, new Image("res/image/background.png"));

@@ -36,6 +36,7 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 	private int jazzCount = 0;
 	private CatListener listener;
 	private CatMode mode;
+	private int jazzModeTimeLeft = 0;
 	
 	public Cat() {
 		
@@ -172,6 +173,7 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 			listener.didEnterMode(this, CatMode.JAZZ);
 			
 			this.jazzCount = 0;
+			this.jazzModeTimeLeft  = 20000;
 		}
 	}
 	
@@ -317,6 +319,16 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 			
 			rainbowAlternate = !rainbowAlternate;
 			rainbowCounter = 400;
+		}
+		
+		if (mode == CatMode.JAZZ) {
+			
+			jazzModeTimeLeft -= delta;
+			if (jazzModeTimeLeft <= 0) {
+				
+				this.mode = CatMode.ORIGINAL;
+				listener.didEnterMode(this, this.mode);
+			}
 		}
 	}
 
