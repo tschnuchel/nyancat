@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Point;
 
 import Base.game.Constants;
 import Base.game.ResourceManager;
+import Base.logic.Difficulty;
 import Base.logic.Planet;
 import Base.movement.LinearMovement;
 import Base.movement.Movement;
@@ -35,6 +36,12 @@ public class LinearObstaclegenerator extends ObstacleGenerator {
 			
 			notifyListeners(planet);
 		}
+	}
+
+	@Override
+	public void setDifficulty(Difficulty difficulty) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

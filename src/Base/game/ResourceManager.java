@@ -12,15 +12,12 @@ public class ResourceManager {
 	public static String CAT_ANIMATION_JAZZ = "cat animation jazz";
 	public static String PLANET_IMAGE = "planet image";
 	public static String PLANET_IMAGE2 = "planet image2";
-	public static String PLANET_JAZZ_IMAGE = "planet jazz image";
 	public static String PLANET_CRASH1 = "planet crash1";
 	public static String PLANET_CRASH2 = "planet crash2";
 	public static String BACKGROUND = "background";
 	public static String CAT_CREDITS = "cat credits";
 	public static String SAXOPHON = "saxophon";
 	public static String NOTE = "note";
-	public static String PAUSE = "pause";
-	public static String MURPHY = "murphy";
 	
 	private LinkedHashMap<String, Object> resources;
 	
@@ -56,15 +53,12 @@ public class ResourceManager {
 		
 		resources.put(PLANET_IMAGE, new Image("res/image/planet.png"));
 		resources.put(PLANET_IMAGE2, new Image("res/image/planet2.png"));
-		resources.put(PLANET_JAZZ_IMAGE, new Image("res/image/jazz_planet.png"));
 		resources.put(PLANET_CRASH1, new Image("res/image/planet_crash_1.png"));
 		resources.put(PLANET_CRASH2, new Image("res/image/planet_crash_2.png"));
 		resources.put(BACKGROUND, new Image("res/image/background.png"));
 		resources.put(CAT_CREDITS, new Image("res/image/Nyan_credits.png"));
 		resources.put(SAXOPHON, new Image("res/image/saxophon.png"));
 		resources.put(NOTE, new Image("res/image/note.png"));
-		resources.put(PAUSE, new Image("res/image/pause.png"));
-		resources.put(MURPHY, new Image("res/image/murphy.png"));
 	}
 	
 	public Object getResourceNamed(String name) {

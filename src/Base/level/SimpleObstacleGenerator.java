@@ -5,41 +5,28 @@ import org.newdawn.slick.geom.Point;
 
 import Base.game.Constants;
 import Base.game.ResourceManager;
+import Base.logic.Difficulty;
 import Base.logic.JazzGoodie;
 import Base.logic.Planet;
-import Base.movement.BypassDelegate;
-import Base.movement.BypassMovement;
 import Base.movement.CircularMovement;
-import Base.movement.CircularToggleMovement;
 import Base.movement.LinearMovement;
 import Base.movement.Movement;
 
-public class SimpleObstacleGenerator extends ObstacleGenerator implements BypassDelegate {
+public class SimpleObstacleGenerator extends ObstacleGenerator {
 
 	private int rate;
 	private int counter;
-	private int bypassCounter;
-	private boolean shouldBypass = false;
-	
+
 	public SimpleObstacleGenerator(int rate) {
 
 		this.rate = rate;
 		counter = 0;
-		bypassCounter = 0;
 	}
 
 	@Override
 	public void update(int delta) {
 
 		counter -= delta;
-		bypassCounter -= delta;
-		
-		if (bypassCounter <= 0) {
-			
-			bypassCounter = 900;
-			
-			shouldBypass = !shouldBypass;
-		}
 		
 		if (counter <= 0) {
 			
@@ -72,12 +59,9 @@ public class SimpleObstacleGenerator extends ObstacleGenerator implements Bypass
 			float radius = 60;
 			Point center = new Point(Constants.SCREEN_WIDTH + radius, Constants.SCREEN_HEIGHT / 2f);
 			int planetCount = 5;
-			int cycleMillis = 1700;
+			int cycleMillis = 5000;
 			boolean clockwise = false;
-			Movement circularMovement = new CircularMovement(900, 100, false, Math.PI / 2);
-			Movement danceMovement = new BypassMovement(circularMovement, this);
 			Movement movement = new LinearMovement(new Point(-100, 0));
-			Movement toggleCircularMovement = new CircularToggleMovement(cycleMillis, radius, -Math.PI / 2, cycleMillis / 2, movement);
 //			List<Obstacle> galaxy = ObstacleGenerator.createGalaxy(center, planetCount, radius, cycleMillis, clockwise, movement);
 //			for (Obstacle obstacle : galaxy) {
 //				
@@ -89,7 +73,7 @@ public class SimpleObstacleGenerator extends ObstacleGenerator implements Bypass
 			Image crashImage1 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH1);
 			Image crashImage2 = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PLANET_CRASH2);
 //			Movement planetMovement = new CircularMovement(cycleMillis, radius, clockwise, 0, movement);
-			Planet planet = new Planet(planetRadius, image, crashImage1, crashImage2, center, toggleCircularMovement);
+			Planet planet = new Planet(planetRadius, image, crashImage1, crashImage2, center, movement);
 			notifyListeners(planet);
 			
 //			notifyListeners(new JazzGoodie(center, movement));
@@ -97,8 +81,8 @@ public class SimpleObstacleGenerator extends ObstacleGenerator implements Bypass
 	}
 
 	@Override
-	public boolean shouldBypass() {
+	public void setDifficulty(Difficulty difficulty) {
+		// TODO Auto-generated method stub
 		
-		return shouldBypass;
 	}
 }

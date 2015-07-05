@@ -16,8 +16,11 @@ import Base.game.state.CreditsGameState;
 import Base.game.state.GameOverGameState;
 import Base.game.state.GameViewGameState;
 import Base.game.state.MenuGameState;
+import Base.logic.Difficulty;
 
 public class NyanGame extends TWLStateBasedGame {
+
+	private Difficulty difficulty = Difficulty.MIDDLE;
 
 	public static void main(String[] args) {
 		
@@ -44,7 +47,7 @@ public class NyanGame extends TWLStateBasedGame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public NyanGame(String name) {
 		
 		super(name);
@@ -81,5 +84,24 @@ public class NyanGame extends TWLStateBasedGame {
 
 		return result;
 	}
+
+	public Difficulty getDifficulty() {
+		return this.difficulty;
+	}
+
+	public void toggleDifficulty() {
+		switch(difficulty){
+		case EASY:
+			difficulty = Difficulty.MIDDLE;
+			break;
+		case MIDDLE:
+			difficulty=Difficulty.HARD;
+			break;
+		case HARD:
+			difficulty= Difficulty.EASY;
+			break;
+			default:
+		}
+		}
 	
 }

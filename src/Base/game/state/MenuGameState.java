@@ -12,18 +12,20 @@ import Base.TWLSlick.BasicTWLGameState;
 import Base.TWLSlick.RootPane;
 import Base.game.Constants;
 import Base.game.DataBaseManager;
+import Base.game.NyanGame;
 import Base.menu.ButtonAction;
 import Base.menu.CallbackAction;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.EditField;
 import de.matthiasmann.twl.Event;
+import de.matthiasmann.twl.ToggleButton;
 
 public class MenuGameState extends BasicTWLGameState {
 	
 	private int id;
-	private Button newGameButton, quitButton;
-	private StateBasedGame game;
+	private Button newGameButton, quitButton, toggleDifficultyButton;
+	private NyanGame game;
 	private GameContainer container;
 	private EditField editField;
 	
@@ -35,7 +37,7 @@ public class MenuGameState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		
-		this.game = game;
+		this.game = (NyanGame) game;
 		this.container = container;
 	}
 
@@ -71,12 +73,46 @@ public class MenuGameState extends BasicTWLGameState {
 				DataBaseManager.getDefaultManager().setPlayerName(editField.getText());
 				FadeOutTransition leave = new FadeOutTransition(Color.black, 100);
 				FadeInTransition enter = new FadeInTransition(Color.black, 100);
+				
 				game.enterState(Constants.ID_GAMEVIEW, leave, enter);
 				game.getState(Constants.ID_GAMEVIEW).setUpdatePaused(false);
 			}
 		};
         newGameButton.addCallback(newGameAction);
         rootpane.add(newGameButton);
+        
+        
+     // add toggleDifficultyButton
+     		toggleDifficultyButton = new Button(game.getDifficulty().toString());
+     		ButtonAction toggleDifficultyAction = new ButtonAction(game, container) {
+     			
+     			@Override
+     			public void run() {
+     				GameViewGameState gameState = (GameViewGameState) game.getState(Constants.ID_GAMEVIEW);
+     				gameState.toggleDifficulty();
+     				
+     				
+     				//TODO hier über gamestates blaen
+//     				game.toggleDifficulty();
+     				System.out.println("aktueller Schwierigkeitsgrad: "+gameState.getDifficulty());
+     				toggleDifficultyButton.setText(gameState.getDifficulty().toString());
+     				
+     				
+     				
+     				
+     				
+//     				DataBaseManager.getDefaultManager().setPlayerName(editField.getText());
+//     				FadeOutTransition leave = new FadeOutTransition(Color.black, 100);
+//     				FadeInTransition enter = new FadeInTransition(Color.black, 100);
+     				
+//     				game.enterState(Constants.ID_GAMEVIEW, leave, enter);
+//     				game.getState(Constants.ID_GAMEVIEW).setUpdatePaused(false);
+     			}
+     		};
+             toggleDifficultyButton.addCallback(toggleDifficultyAction);
+             rootpane.add(toggleDifficultyButton);
+        
+        
         
         // add quitButton
         quitButton = new Button("Quit");
@@ -125,7 +161,7 @@ public class MenuGameState extends BasicTWLGameState {
 		int buttonHeight = 60;
 		int verticalSpace = 20;
 		
-		Button[] buttons = {newGameButton, quitButton};
+		Button[] buttons = {newGameButton, toggleDifficultyButton, quitButton};
 		
 		for (int i = 0; i < buttons.length; i++) {
 			
@@ -147,9 +183,26 @@ public class MenuGameState extends BasicTWLGameState {
 				editField.setSize(editWidth, editHeight);
 				
 			} else {
+				/*if_not[Schwierigkeitsgrade]*/
+				quitButton.setSize(buttonWidth, buttonHeight);
+				quitButton.setPosition((Constants.SCREEN_WIDTH - buttonWidth) / 2, (Constants.SCREEN_HEIGHT - buttons.length * (buttonHeight + verticalSpace) - verticalSpace) / 2 + i * (buttonHeight + verticalSpace));
+				/*end[Schwierigkeitsgrade]*/
 				
-				button.setSize(buttonWidth, buttonHeight);
-				button.setPosition((Constants.SCREEN_WIDTH - buttonWidth) / 2, (Constants.SCREEN_HEIGHT - buttons.length * (buttonHeight + verticalSpace) - verticalSpace) / 2 + i * (buttonHeight + verticalSpace));
+				/*if[Schwierigkeitsgrade]*/
+				int toggleButtonWidth = 100;
+				int gap = 45;
+				int offset = toggleButtonWidth+gap;
+				quitButton.setSize(buttonWidth-offset, buttonHeight);
+				quitButton.setPosition((Constants.SCREEN_WIDTH - buttonWidth) / 2 + offset, (Constants.SCREEN_HEIGHT - buttons.length * (buttonHeight + verticalSpace) - verticalSpace) / 2 + 2 * (buttonHeight + verticalSpace));
+				int y = (Constants.SCREEN_HEIGHT - buttons.length * (buttonHeight + verticalSpace) - verticalSpace) / 2 + i * (buttonHeight + verticalSpace);
+
+				toggleDifficultyButton.setPosition((Constants.SCREEN_WIDTH - buttonWidth) / 2, y);
+				toggleDifficultyButton.setSize(100, buttonHeight);
+				
+				/*end[Schwierigkeitsgrade]*/
+			
+			
+			
 			}
 		}
 		

@@ -23,7 +23,7 @@ public class MusicManager {
 		}
 		/*if[Hintergrundmusik]*/
 		if(!defaultMusicManager.isPlayingOriginal){
-//			defaultMusicManager.change();
+			defaultMusicManager.change();
 		}
 		/*end[Hintergrundmusik]*/
 		return defaultMusicManager;

@@ -58,8 +58,4 @@ public class LinearMovement extends Movement {
 		return result;
 	}
 
-	public void setSpeedVector(Point speedVector) {
-		
-		this.speedVector = speedVector;
-	}
 }

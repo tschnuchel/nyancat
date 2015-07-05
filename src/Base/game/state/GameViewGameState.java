@@ -19,8 +19,7 @@ import Base.game.KeyboardHandler;
 import Base.game.ResourceManager;
 import Base.level.Level;
 import Base.logic.Cat;
-import Base.logic.CatListener.CatMode;
-import Base.logic.Note;
+import Base.logic.Difficulty;
 import Base.logic.Obstacle;
 import Base.music.MusicManager;
 
@@ -36,8 +35,6 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 	private Level level;
 	private int bgCounter = 1000;
 	private boolean paused = false;
-	private int murphyCounter = 0;
-	private boolean rotate = false;
 	
 	public GameViewGameState(int uniqueID) {
 		
@@ -89,7 +86,6 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 				updateLevel(delta);
 				updateScore(delta);
 				updateBackgroundCounter(delta);
-				updateMurphy(delta);
 				checkCollisions();
 				
 			} else {
@@ -101,19 +97,6 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 				FadeOutTransition leave = new FadeOutTransition(Color.black, 100);
 				FadeInTransition enter = new FadeInTransition(Color.black, 100);
 				game.enterState(Constants.ID_GAMEOVER, leave, enter);
-			}
-		}
-	}
-
-	private void updateMurphy(int delta) {
-		
-		murphyCounter -= delta;
-		
-		if (cat.getMode() == CatMode.JAZZ) {
-			
-			if (murphyCounter <= 0) {
-				rotate = ! rotate;
-				murphyCounter = 1000;
 			}
 		}
 	}
@@ -158,21 +141,6 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		g.texture(new Rectangle(-offset, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT), bgImage);
 		g.translate(-offset, 0);
 		
-		// draw murphy
-		if (cat.getMode() == CatMode.JAZZ) {
-			
-			Image murphyImage = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.MURPHY);
-			float angle = 0;
-			if (rotate) {
-				
-				angle = 10;
-			}
-			murphyImage.rotate(angle);
-			g.drawImage(murphyImage, 200, 200);
-			murphyImage.rotate(-angle);
-			
-		}
-		
 		// draw obstacles
 		g.setColor(Color.white);
 		for (Obstacle obstacle : level.getObstacles()) {
@@ -187,19 +155,6 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		g.setColor(Color.white);
 		String scoreText = new Integer(score).toString();
 		g.drawString(scoreText, Constants.SCREEN_WIDTH - 70, 30);
-		
-		// draw help
-		if (paused) {
-			
-			Image helpImage = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.PAUSE);
-			float xMargin = 200;
-			float width = Constants.SCREEN_WIDTH - 2 * xMargin;
-			float height = width * helpImage.getHeight() / (float)(helpImage.getWidth());
-			System.out.println("w: " + width + ", h: " + height);
-			float yMargin = (Constants.SCREEN_HEIGHT - height) / 2f;
-			System.out.println("yMargin: " + yMargin);
-			g.drawImage(helpImage, xMargin, yMargin, Constants.SCREEN_WIDTH - xMargin, Constants.SCREEN_HEIGHT - yMargin, 0, 0, helpImage.getWidth(), helpImage.getHeight());
-		}
 	}
 
 	@Override
@@ -260,6 +215,13 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		default:
 			break;
 		}
+	}
+	public Difficulty getDifficulty(){
+		return this.level.getDifficulty();
+	}
+	public void toggleDifficulty() {
+		this.level.toggleDifficulty();
+		
 	}
 
 }
