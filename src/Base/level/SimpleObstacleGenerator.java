@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Point;
 
 import Base.game.Constants;
 import Base.game.ResourceManager;
+import Base.logic.Difficulty;
 import Base.logic.JazzGoodie;
 import Base.logic.Planet;
 import Base.movement.CircularMovement;
@@ -77,5 +78,11 @@ public class SimpleObstacleGenerator extends ObstacleGenerator {
 			
 //			notifyListeners(new JazzGoodie(center, movement));
 		}
+	}
+
+	@Override
+	public void setDifficulty(Difficulty difficulty) {
+		// TODO Auto-generated method stub
+		
 	}
 }

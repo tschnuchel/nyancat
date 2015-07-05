@@ -19,7 +19,7 @@ import Base.game.KeyboardHandler;
 import Base.game.ResourceManager;
 import Base.level.Level;
 import Base.logic.Cat;
-import Base.logic.Note;
+import Base.logic.Difficulty;
 import Base.logic.Obstacle;
 import Base.music.MusicManager;
 
@@ -215,6 +215,13 @@ public class GameViewGameState extends BasicTWLGameState implements KeyboardHand
 		default:
 			break;
 		}
+	}
+	public Difficulty getDifficulty(){
+		return this.level.getDifficulty();
+	}
+	public void toggleDifficulty() {
+		this.level.toggleDifficulty();
+		
 	}
 
 }

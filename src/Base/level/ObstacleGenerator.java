@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
 import Base.game.ResourceManager;
+import Base.logic.Difficulty;
 import Base.logic.Obstacle;
 import Base.logic.Planet;
 import Base.movement.CircularMovement;
@@ -59,4 +60,5 @@ public abstract class ObstacleGenerator {
 		
 		return result;
 	}
+	public abstract void setDifficulty(Difficulty difficulty);
 }
