@@ -37,7 +37,17 @@ public class MusicManager {
 		/*end[Hintergrundmusik]*/
 	}
 	
+	public void playOriginal(){//TODO evtl. einbauen, ich finde nur nicht, wo...
+		float position = loopJazz.getPosition() * 27f / 48f;
+		loopOriginal.playAsMusic(1.0f, 1.0f, true);
+		loopOriginal.setPosition(position);
+	}
 	
+	public void playJazz(){//TODO evtl. einbauen, ich finde nur nicht, wo...
+		float position = loopOriginal.getPosition() * 48f / 27f;
+		loopJazz.playAsMusic(1.0f, 1.0f, true);
+		loopJazz.setPosition(position);
+	}
 	private Audio createAudio(String format, String path) {
 		
 		Audio audio = null;
