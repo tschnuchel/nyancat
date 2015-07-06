@@ -1,0 +1,14 @@
+# Lists all features from the model with manual (first digit) and automatic (second digit) selection
+# 0 = deselected, 1 = selected, 2 = undefined
+21NyanCat
+11Audio
+12Hintergrundmusik
+12Soundeffekte
+12Schwierigkeitsgrade
+12Noten_schiessen
+22JazzMode
+12Highscore
+21Movements
+12Circular
+12Gravity
+12Pause_Hilfe
