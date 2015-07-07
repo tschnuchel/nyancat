@@ -3,6 +3,7 @@ package Base.level;
 import java.util.LinkedList;
 import java.util.List;
 
+import Base.level.CrazyObstacleGenerator;
 import Base.logic.Cat;
 import Base.logic.CatListener;
 import Base.logic.Difficulty;
@@ -18,9 +19,9 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 	private LinkedList<Obstacle> obstacles;
 	private CollisionGraph collisionGraph;
 	private Cat player;
-	  
-	private Difficulty difficulty = Difficulty.MIDDLE;
-	  
+	 
+
+ 
 
 	public Level(Cat player) {
 
@@ -31,11 +32,8 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 		// generator = new SimpleObstacleGenerator(1000);
 		// generator = new LinearObstaclegenerator();
 
-		  
-		generator = new CrazyObstacleGenerator(difficulty);
-		  
-		// TODO if not
-
+		generator = new CrazyObstacleGenerator(  );
+		
 		generator.addListener(this);
 		player.setListener(this);
 	}
@@ -90,18 +88,18 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 	}
 
 	
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public void didEnterMode(Cat cat, CatMode mode) {
+		
+		if(mode.equals(CatMode.JAZZ)){
+			MusicManager.getDefaultMusicManager().playJazz();
+		}else{
+			MusicManager.getDefaultMusicManager().playOriginal();
+		}
+		
+		generator.setMode(mode);
+	}
+	
 
 	
 	@Override
@@ -117,25 +115,26 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 
 		this.collisionGraph.removeVertex(collidable);
 	}
+	
 
-	public Difficulty getDifficulty() {
-		return this.difficulty;
-	}
 
-	public void toggleDifficulty() {
-		switch (difficulty) {
-		case EASY:
-			difficulty = Difficulty.MIDDLE;
-			break;
-		case MIDDLE:
-			difficulty = Difficulty.HARD;
-			break;
-		case HARD:
-			difficulty = Difficulty.EASY;
-			break;
-		default:
-		}
-		System.out.println("Generator ID: "+generator);
-		this.generator.setDifficulty(difficulty);
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

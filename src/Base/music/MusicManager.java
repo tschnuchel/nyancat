@@ -35,7 +35,27 @@ public class MusicManager {
 		loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
 		loopOriginal.playAsMusic(1.0f, 1.0f, true);
 		
+		
+
+
 	}
+	
+	public void playOriginal(){//TODO evtl. einbauen, ich finde nur nicht, wo...
+		if(!isPlayingOriginal){
+		float position = loopJazz.getPosition() * 27f / 48f;
+		loopOriginal.playAsMusic(1.0f, 1.0f, true);
+		loopOriginal.setPosition(position);
+		isPlayingOriginal = true;
+		}
+	}
+	
+	public void playJazz(){
+		float position = loopOriginal.getPosition() * 48f / 27f;
+		loopJazz.playAsMusic(1.0f, 1.0f, true);
+		loopJazz.setPosition(position);
+		isPlayingOriginal = false;
+	}
+	
 	
 	
 	private Audio createAudio(String format, String path) {
@@ -53,28 +73,25 @@ public class MusicManager {
 		
 		return audio;
 	}
-	//TODO ehemals MusicManager.change - Positionen merken und ab da spielen
-	
-//	public void change() {
-//		if (isPlayingOriginal) {
-//			
-//			float position = loopOriginal.getPosition() * 48f / 27f;
-//			loopJazz.playAsMusic(1.0f, 1.0f, true);
-//			loopJazz.setPosition(position);
-//		
-//		} else {
-//			
-//			float position = loopJazz.getPosition() * 27f / 48f;
-//			loopOriginal.playAsMusic(1.0f, 1.0f, true);
-//			loopOriginal.setPosition(position);
-//		}
-//		
-//		isPlayingOriginal = !isPlayingOriginal;
-//	}
 	
 	
-	
-	public boolean loadSoundEffect(String format, String ref) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public boolean loadSoundEffect(String format, String ref) {
 		
 		if (this.cache.containsKey(ref)) {
 			return true;
@@ -89,35 +106,12 @@ public class MusicManager {
 		
 		return effect != null;
 	}
-	
-	
-	public void playSoundEffect(String ref) {
-		
-		Audio effect = this.cache.get(ref);
-		effect.playAsSoundEffect(1.0f, 1.0f, false);
-	}
-	
-public void playMusic(String ref) {
-//	loopJazz.playAsMusic(1.0f, 1.0f, true);
-//	loopJazz.setPosition(position);
-//		Audio effect = this.cache.get(ref);
-//		
-//		if (effect.equals(this.loopOriginal)){
-//			System.out.println("original!");
-//		}else{
-//			System.out.println("nicht original!");
-//		}
-//		
-	Audio effect = this.cache.get(ref);
-	if(ref.equals("/res/sound/nyan_loop_original.ogg")){
-		effect = loopOriginal;
-	}
-	
-		float position = effect.getPosition() * 48f / 27f;
-		System.out.println("position: "+position);
-		effect.playAsMusic(1.0f, 1.0f, true);
-		effect.setPosition(position);
-	
-	
-	}
+
+
+
+
+
+
+
+
 }

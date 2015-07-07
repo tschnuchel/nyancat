@@ -11,9 +11,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import Base.TWLSlick.BasicTWLGameState;
 import Base.TWLSlick.RootPane;
 import Base.game.Constants;
-import Base.game.DataBaseManager;
-import Base.game.DataBaseManager.Scoring;
+
+
+
+
 import Base.menu.ButtonAction;
+import Base.music.MusicManager;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
 
@@ -24,13 +27,17 @@ public class GameOverGameState extends BasicTWLGameState {
 	private Button retryButton, menuButton, mainMenuButton;
 	private GameContainer container;
 	private StateBasedGame game;
-	private List<Scoring> scores;
+	
+
+
 	
 	public GameOverGameState(int uniqueID) {
 		
 		this.id = uniqueID;
 		this.score = 0;
-		this.scores = DataBaseManager.getDefaultManager().getTop(10);
+		
+
+
 	}
 	
 	@Override
@@ -45,7 +52,8 @@ public class GameOverGameState extends BasicTWLGameState {
 		
 		super.enter(container, game);
 		
-		this.scores = DataBaseManager.getDefaultManager().getTop(10);
+
+
 	}
 	
 	@Override
@@ -60,13 +68,15 @@ public class GameOverGameState extends BasicTWLGameState {
 		String scoreString = "Your score: "+score;
 		g.drawString(scoreString, 50, 70);
 		
-		int i = 1;
-		for (Scoring scoring : scores) {
-			
-			String line = i + ": " + scoring.getScore() + " (" + scoring.getNickname() + ")";
-			g.drawString(line, 50, 100 + i * 20);
-			i++;
-		}
+		
+
+
+
+
+
+
+
+
 	}
 
 	@Override
@@ -92,8 +102,11 @@ public class GameOverGameState extends BasicTWLGameState {
 			@Override
 			public void run() {
 				GameState gameState = game.getState(Constants.ID_MENU);
+				
+				System.out.println("in here: mainMenuButton");
+				MusicManager.getDefaultMusicManager().playOriginal();
+				
 				try {
-					gameState.init(container, game);
 					game.init(container);
 					game.enterState(Constants.ID_MENU);
 				} catch (SlickException e) {
@@ -112,6 +125,10 @@ public class GameOverGameState extends BasicTWLGameState {
 			public void run() {
 				
 				GameViewGameState gameViewGameState = (GameViewGameState) game.getState(Constants.ID_GAMEVIEW);
+				
+				System.out.println("in here: retryButton");
+				MusicManager.getDefaultMusicManager().playOriginal();
+				
 				try {
 					
 					gameViewGameState.init(container, game);
@@ -132,7 +149,8 @@ public class GameOverGameState extends BasicTWLGameState {
 			@Override
 			public void run() {
 				
-				DataBaseManager.getDefaultManager().close();
+
+
 				container.exit();
 			}
 		};

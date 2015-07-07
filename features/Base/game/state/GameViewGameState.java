@@ -25,15 +25,21 @@ import Base.logic.CatListener.CatMode;
 import Base.logic.Difficulty;
 import Base.logic.Note;
 import Base.logic.Obstacle;
+/* if[Hintergrundmusik] */
 import Base.music.MusicManager;
+/* else[Soundeffekte] */
+import Base.music.MusicManager;
+/*end[Soundeffekte]*/
 
 public class GameViewGameState extends BasicTWLGameState implements
 		KeyboardHandler {
 
 	private int id;
-	/* if[Audio] */
+	/* if[Hintergrundmusik] */
 	private MusicManager musicManager;
-	/* end[Audio] */
+	/* else[Soundeffekte] */
+	private MusicManager musicManager;
+	/*end[Soundeffekte]*/
 	private InputManager inputManager;
 	private Cat cat;
 	private int score;
@@ -50,7 +56,7 @@ public class GameViewGameState extends BasicTWLGameState implements
 	/* if_not[Noten_Schiessen] */
 	private static final int SMALLHELPPICTURE_X = 1440;
 	private static final int SMALLHELPPICTURE_Y = 1060;
-
+	/*end[Noten_Schiessen]*/
 	/* end[Pause_Hilfe] */
 
 	public GameViewGameState(int uniqueID) {
@@ -64,9 +70,11 @@ public class GameViewGameState extends BasicTWLGameState implements
 		score = 0;
 		level = new Level(cat);
 
-		/* if[Audio] */
+		/* if[Hintergrundmusik] */
 		musicManager = MusicManager.getDefaultMusicManager();
-		/* end[Audio] */
+		/*else[Soundeffekte]*/
+		musicManager = MusicManager.getDefaultMusicManager();
+		/* end[Soundeffekte] */
 
 		inputManager = new InputManager(container, game);
 
@@ -117,8 +125,9 @@ public class GameViewGameState extends BasicTWLGameState implements
 				checkCollisions();
 
 			} else {
-
+				/*if[Highscore]*/
 				DataBaseManager.getDefaultManager().uploadScore(score);
+				/*end[Highscore]*/
 				GameOverGameState gameOverState = (GameOverGameState) game
 						.getState(Constants.ID_GAMEOVER);
 				gameOverState.setScore(score);
@@ -314,22 +323,23 @@ public class GameViewGameState extends BasicTWLGameState implements
 	}
 
 
-
+	/*if[Schwierigkeitsgrade]*/
 	public Difficulty getDifficulty(){
 		return this.level.getDifficulty();
 	}
 	public void toggleDifficulty() {
 		this.level.toggleDifficulty();
-		
 	}
+	/*end[Schwierigkeitsgrade]*/
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
-		MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_original.ogg");
-		
-		
+//		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
+//		MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_original.ogg");
+		/*if[Hintergrundmusik]*/
+		this.musicManager.playOriginal();
+		/*end[Hintergrundmusik]*/
 		
 		
 		

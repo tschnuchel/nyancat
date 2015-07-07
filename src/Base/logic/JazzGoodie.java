@@ -23,8 +23,8 @@ public class JazzGoodie extends Obstacle {
 		
 		super(new Rectangle(position.getX(), position.getY(), 40, 40), new Rectangle(position.getX(), position.getY(), 40, 40), movement);
 		
-		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", SOUND_EFFECT_SAX);
-		
+
+
 		Image sax = (Image) ResourceManager.getDefaultManager().getResourceNamed(ResourceManager.SAXOPHON);
 		image = sax.getScaledCopy(40 / 128f);
 
@@ -60,7 +60,9 @@ public class JazzGoodie extends Obstacle {
 	public void acceptCollidable(Cat collidable) {
 		
 		isValid = false;
-		MusicManager.getDefaultMusicManager().playSoundEffect(SOUND_EFFECT_SAX);
+		
+
+
 	}
 
 	@Override

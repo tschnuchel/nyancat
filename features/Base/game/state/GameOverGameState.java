@@ -11,9 +11,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import Base.TWLSlick.BasicTWLGameState;
 import Base.TWLSlick.RootPane;
 import Base.game.Constants;
+/*if[Highscore]*/
 import Base.game.DataBaseManager;
 import Base.game.DataBaseManager.Scoring;
+/*end[Highscore]*/
 import Base.menu.ButtonAction;
+import Base.music.MusicManager;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
 
@@ -24,13 +27,17 @@ public class GameOverGameState extends BasicTWLGameState {
 	private Button retryButton, menuButton, mainMenuButton;
 	private GameContainer container;
 	private StateBasedGame game;
+	/*if[Highscore]*/
 	private List<Scoring> scores;
+	/*end[Highscore]*/
 	
 	public GameOverGameState(int uniqueID) {
 		
 		this.id = uniqueID;
 		this.score = 0;
+		/*if[Highscore]*/
 		this.scores = DataBaseManager.getDefaultManager().getTop(10);
+		/*end[Highscore]*/
 	}
 	
 	@Override
@@ -44,8 +51,9 @@ public class GameOverGameState extends BasicTWLGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		
 		super.enter(container, game);
-		
+		/*if[Highscore]*/
 		this.scores = DataBaseManager.getDefaultManager().getTop(10);
+		/*end[Highscore]*/
 	}
 	
 	@Override
@@ -60,6 +68,7 @@ public class GameOverGameState extends BasicTWLGameState {
 		String scoreString = "Your score: "+score;
 		g.drawString(scoreString, 50, 70);
 		
+		/*if[Highscore]*/
 		int i = 1;
 		for (Scoring scoring : scores) {
 			
@@ -67,6 +76,7 @@ public class GameOverGameState extends BasicTWLGameState {
 			g.drawString(line, 50, 100 + i * 20);
 			i++;
 		}
+		/*end[Highscore]*/
 	}
 
 	@Override
@@ -92,8 +102,11 @@ public class GameOverGameState extends BasicTWLGameState {
 			@Override
 			public void run() {
 				GameState gameState = game.getState(Constants.ID_MENU);
+				/*if[Hintergrundmusik]*/
+				System.out.println("in here: mainMenuButton");
+				MusicManager.getDefaultMusicManager().playOriginal();
+				/*end[Hintergrundmusik]*/
 				try {
-					gameState.init(container, game);
 					game.init(container);
 					game.enterState(Constants.ID_MENU);
 				} catch (SlickException e) {
@@ -112,6 +125,10 @@ public class GameOverGameState extends BasicTWLGameState {
 			public void run() {
 				
 				GameViewGameState gameViewGameState = (GameViewGameState) game.getState(Constants.ID_GAMEVIEW);
+				/*if[Hintergrundmusik]*/
+				System.out.println("in here: retryButton");
+				MusicManager.getDefaultMusicManager().playOriginal();
+				/*end[Hintergrundmusik]*/
 				try {
 					
 					gameViewGameState.init(container, game);
@@ -131,8 +148,9 @@ public class GameOverGameState extends BasicTWLGameState {
 			
 			@Override
 			public void run() {
-				
+				/*if[Highscore]*/
 				DataBaseManager.getDefaultManager().close();
+				/*end[Highscore]*/
 				container.exit();
 			}
 		};

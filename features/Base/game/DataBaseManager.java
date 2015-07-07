@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DataBaseManager {
-
+	/*if[Highscore]*/
 	private static DataBaseManager defaultManager = null;
 	
 	private Connection connection = null;
@@ -175,5 +175,5 @@ public class DataBaseManager {
 	public void setPlayerName(String nickname) {
 		this.nickname = nickname;
 	}
-	
+	/*end[Highscore]*/
 }

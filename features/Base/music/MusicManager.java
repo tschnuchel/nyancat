@@ -35,19 +35,29 @@ public class MusicManager {
 		loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
 		loopOriginal.playAsMusic(1.0f, 1.0f, true);
 		/*end[Hintergrundmusik]*/
+		/*if[Soundeffekte]*/
+		loadSoundEffect("OGG", "res/sound/effect_sax_jazz.ogg");
+		/*end[Soundeffekte]*/
 	}
-	
+	/*if[Hintergrundmusik]*/
 	public void playOriginal(){//TODO evtl. einbauen, ich finde nur nicht, wo...
+		if(!isPlayingOriginal){
 		float position = loopJazz.getPosition() * 27f / 48f;
 		loopOriginal.playAsMusic(1.0f, 1.0f, true);
 		loopOriginal.setPosition(position);
+		isPlayingOriginal = true;
+		}
 	}
-	
-	public void playJazz(){//TODO evtl. einbauen, ich finde nur nicht, wo...
+	/*if[JazzMode]*/
+	public void playJazz(){
 		float position = loopOriginal.getPosition() * 48f / 27f;
 		loopJazz.playAsMusic(1.0f, 1.0f, true);
 		loopJazz.setPosition(position);
+		isPlayingOriginal = false;
 	}
+	/*end[JazzMode]*/
+	/*end[Hintergrundmusik]*/
+	
 	private Audio createAudio(String format, String path) {
 		
 		Audio audio = null;
@@ -63,24 +73,6 @@ public class MusicManager {
 		
 		return audio;
 	}
-	//TODO ehemals MusicManager.change - Positionen merken und ab da spielen
-	
-//	public void change() {
-//		if (isPlayingOriginal) {
-//			
-//			float position = loopOriginal.getPosition() * 48f / 27f;
-//			loopJazz.playAsMusic(1.0f, 1.0f, true);
-//			loopJazz.setPosition(position);
-//		
-//		} else {
-//			
-//			float position = loopJazz.getPosition() * 27f / 48f;
-//			loopOriginal.playAsMusic(1.0f, 1.0f, true);
-//			loopOriginal.setPosition(position);
-//		}
-//		
-//		isPlayingOriginal = !isPlayingOriginal;
-//	}
 	
 	/*if[Soundeffekte]*/
 	public boolean loadSoundEffect(String format, String ref) {
@@ -98,43 +90,28 @@ public class MusicManager {
 		
 		return effect != null;
 	}
-	/*end[Soundeffekte]*/
-	
+	/*else[Hintergrundmusik]*/
+public boolean loadSoundEffect(String format, String ref) {
+		
+		if (this.cache.containsKey(ref)) {
+			return true;
+		}
+		
+		Audio effect = createAudio(format, ref);
+		
+		if (effect != null) {
+			
+			this.cache.put(ref, effect);
+		}
+		
+		return effect != null;
+	}
+/*end[Hintergrundmusik]*/
+/*if[Soundeffekte]*/
 	public void playSoundEffect(String ref) {
 		
 		Audio effect = this.cache.get(ref);
 		effect.playAsSoundEffect(1.0f, 1.0f, false);
 	}
-	
-	public void playMusic(String ref) {
-	//	loopJazz.playAsMusic(1.0f, 1.0f, true);
-	//	loopJazz.setPosition(position);
-	//		Audio effect = this.cache.get(ref);
-	//		
-	//		if (effect.equals(this.loopOriginal)){
-	//			System.out.println("original!");
-	//		}else{
-	//			System.out.println("nicht original!");
-	//		}
-	//		
-		Audio effect = this.cache.get(ref);
-		effect.playAsMusic(1.0f, 1.0f, true);
-	}
-
-	public void playMusic(String ref, float position) {
-		//	loopJazz.playAsMusic(1.0f, 1.0f, true);
-		//	loopJazz.setPosition(position);
-		//		Audio effect = this.cache.get(ref);
-		//		
-		//		if (effect.equals(this.loopOriginal)){
-		//			System.out.println("original!");
-		//		}else{
-		//			System.out.println("nicht original!");
-		//		}
-		//		
-		Audio effect = this.cache.get(ref);
-		
-		effect.playAsMusic(1.0f, 1.0f, true);
-		effect.setPosition(position);
-	}
+	/*end[Soundeffekte]*/
 }

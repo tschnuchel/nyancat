@@ -114,12 +114,15 @@ public class CollisionGraph {
 		for (Collision collision : matrix.get(collidable).getCollisions()) {
 			
 			MatrixEntry otherEntry = matrix.get(collision.getCollidable());
-			for (Collision collision2 : otherEntry.getCollisions()) {
+			if ((otherEntry != null) && (otherEntry.getCollisions() != null)) {
 				
-				if (collision2.getCollidable() == collidable) {
+				for (Collision collision2 : otherEntry.getCollisions()) {
 					
-					otherEntry.removeCollision(collision2);
-					break;
+					if (collision2.getCollidable() == collidable) {
+						
+						otherEntry.removeCollision(collision2);
+						break;
+					}
 				}
 			}
 		}

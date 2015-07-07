@@ -20,20 +20,26 @@ import Base.game.ResourceManager;
 import Base.level.Level;
 import Base.logic.Cat;
 
-
+import Base.logic.CatListener.CatMode;
 
 import Base.logic.Difficulty;
 import Base.logic.Note;
 import Base.logic.Obstacle;
+  
 import Base.music.MusicManager;
+ 
+
+
 
 public class GameViewGameState extends BasicTWLGameState implements
 		KeyboardHandler {
 
 	private int id;
+	  
+	private MusicManager musicManager;
 	 
 
- 
+
 	private InputManager inputManager;
 	private Cat cat;
 	private int score;
@@ -41,16 +47,16 @@ public class GameViewGameState extends BasicTWLGameState implements
 	private int bgCounter = 1000;
 	private boolean paused = false;
 
-	 
-
-
- 
+	  
+	private int murphyCounter = 0;
+	private boolean rotate = false;
+	  
 
 	  
 	  
 	private static final int SMALLHELPPICTURE_X = 1440;
 	private static final int SMALLHELPPICTURE_Y = 1060;
-
+	
 	  
 
 	public GameViewGameState(int uniqueID) {
@@ -64,7 +70,9 @@ public class GameViewGameState extends BasicTWLGameState implements
 		score = 0;
 		level = new Level(cat);
 
-		 
+		  
+		musicManager = MusicManager.getDefaultMusicManager();
+		
 
  
 
@@ -108,17 +116,18 @@ public class GameViewGameState extends BasicTWLGameState implements
 				updateLevel(delta);
 				updateScore(delta);
 				updateBackgroundCounter(delta);
-				 
+				  
 
+				// update Murphy picture during Jazz mode
+				updateMurphy(delta);
 
-
-
- 
+				  
 				checkCollisions();
 
 			} else {
+				
 
-				DataBaseManager.getDefaultManager().uploadScore(score);
+
 				GameOverGameState gameOverState = (GameOverGameState) game
 						.getState(Constants.ID_GAMEOVER);
 				gameOverState.setScore(score);
@@ -131,21 +140,21 @@ public class GameViewGameState extends BasicTWLGameState implements
 		}
 	}
 
-	 
+	  
+    private void updateMurphy(int delta) {
 
+            murphyCounter -= delta;
 
+            if (cat.getMode() == CatMode.JAZZ) {
 
+                    if (murphyCounter <= 0) {
+                            rotate = !rotate;
+                            murphyCounter = 1000;
+                    }
+            }
+    }
 
-
-
-
-
-
-
-
-
-
- 
+      
 
 	private void updateBackgroundCounter(int delta) {
 
@@ -190,23 +199,23 @@ public class GameViewGameState extends BasicTWLGameState implements
 				Constants.SCREEN_HEIGHT), bgImage);
 		g.translate(-offset, 0);
 
-		 
+		  
+        // draw murphy
+        if (cat.getMode() == CatMode.JAZZ) {
 
+                Image murphyImage = (Image) ResourceManager.getDefaultManager()
+                                .getResourceNamed(ResourceManager.MURPHY);
+                float angle = 0;
+                if (rotate) {
 
+                        angle = 10;
+                }
+                murphyImage.rotate(angle);
+                g.drawImage(murphyImage, 200, 200);
+                murphyImage.rotate(-angle);
 
-
-
-
-
-
-
-
-
-
-
-
-
- 
+        }
+          
 		
 		
 
@@ -314,21 +323,22 @@ public class GameViewGameState extends BasicTWLGameState implements
 	}
 
 
+	
 
-	public Difficulty getDifficulty(){
-		return this.level.getDifficulty();
-	}
-	public void toggleDifficulty() {
-		this.level.toggleDifficulty();
-		
-	}
+
+
+
+
+
+
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
-		MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_original.ogg");
+//		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
+//		MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_original.ogg");
 		
+		this.musicManager.playOriginal();
 		
 		
 		

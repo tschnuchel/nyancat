@@ -3,6 +3,7 @@ package Base.level;
 import java.util.LinkedList;
 import java.util.List;
 
+import Base.level.CrazyObstacleGenerator;
 import Base.logic.Cat;
 import Base.logic.CatListener;
 import Base.logic.Difficulty;
@@ -31,11 +32,8 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 		// generator = new SimpleObstacleGenerator(1000);
 		// generator = new LinearObstaclegenerator();
 
-		/* if[Schwierigkeitsgrade] */
-		generator = new CrazyObstacleGenerator(difficulty);
-		/* end[Schwierigkeitsgrade] */
-		// TODO if not
-
+		generator = new CrazyObstacleGenerator(/* if[Schwierigkeitsgrade] */difficulty/* end[Schwierigkeitsgrade] */);
+		
 		generator.addListener(this);
 		player.setListener(this);
 	}
@@ -92,13 +90,13 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 	/*if[JazzMode]*/
 	@Override
 	public void didEnterMode(Cat cat, CatMode mode) {
+		/*if[Hintergrundmusik]*/
 		if(mode.equals(CatMode.JAZZ)){
-		MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_jazz.ogg");
-		MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_jazz.ogg");//TODO Konstante
+			MusicManager.getDefaultMusicManager().playJazz();
 		}else{
-			MusicManager.getDefaultMusicManager().loadSoundEffect("OGG", "/res/sound/nyan_loop_original.ogg");
-			MusicManager.getDefaultMusicManager().playMusic("/res/sound/nyan_loop_original.ogg");//TODO Konstante
+			MusicManager.getDefaultMusicManager().playOriginal();
 		}
+		/*end[Hintergrundmusik]*/
 		generator.setMode(mode);
 	}
 	/*end[JazzMode]*/
@@ -117,7 +115,7 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 
 		this.collisionGraph.removeVertex(collidable);
 	}
-
+	/*if[Schwierigkeitsgrade]*/
 	public Difficulty getDifficulty() {
 		return this.difficulty;
 	}
@@ -135,7 +133,8 @@ public class Level implements ObstacleGeneratorListener, CatListener, CollisionD
 			break;
 		default:
 		}
-		System.out.println("Generator ID: "+generator);
 		this.generator.setDifficulty(difficulty);
 	}
+	/*end[Schwierigkeitsgrade]*/
+
 }

@@ -17,7 +17,7 @@ import Base.game.Drawable;
 import Base.game.KeyboardHandler;
 import Base.game.ResourceManager;
 
-
+import Base.logic.CatListener.CatMode;
 
 import Base.logic.collision.Collidable;
 import Base.movement.LinearMovement;
@@ -36,18 +36,18 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 	private float speedX = 0, speedY = 0;
 	private int lifes = 7;
 	private CatListener listener;
-	
-
-
-
- 
+	 
+	private CatMode mode;
+	private int jazzModeTimeLeft = 0;
+	private int jazzCount = 0;
+	 
 	
 	public Cat() {
 		
 		// init mode
 		
-
-
+		mode = CatMode.ORIGINAL;
+		
 		
 		// init boundingBox
 		boundingBox = new Rectangle(0, Constants.SCREEN_HEIGHT / 2f, 32 * Constants.CAT_SCALE_FACTOR, 20 * Constants.CAT_SCALE_FACTOR);
@@ -113,13 +113,13 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 		this.setLifes(this.getLifes() + 1);
 	}
 
-	
+	 
+	@Override
+	public void acceptCollidable(JazzGoodie collidable) {
 
-
-
-
-
- 
+		this.setJazzCount(this.getJazzCount() + 1);
+	}
+	 
 	
 	public void removeLife() {
 		
@@ -167,46 +167,46 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 		return lifes <= 0;
 	}
 	
+	 
+	public int getJazzCount() {
+		
+		return jazzCount;
+	}
+
+	public void setJazzCount(int jazzCount) {
+		
+		this.jazzCount = jazzCount;
+		if ((this.jazzCount >= 5) && (this.mode != CatMode.JAZZ)) {
+			
+			this.mode = CatMode.JAZZ;
+			listener.didEnterMode(this, CatMode.JAZZ);
+			
+			this.jazzCount = 0;
+			this.jazzModeTimeLeft  = 20000;
+		}
+	}
+	 
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 	
-	
-
-
-
-
-
 	public void setListener(CatListener lsitener) {
 		
 		this.listener = lsitener;
 	}
 	
+
+
+
+
+
 	
 	
 	
 	
-
-
-
-
-
+	public CatMode getMode() {
+		
+		return mode;
+	}
+	
 
 	@Override
 	public Rectangle getBoundingBox() {
@@ -343,16 +343,16 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 		}
 		
 		
-
-
-
-
-
-
-
-
-
-
+		if (mode == CatMode.JAZZ) {
+			
+			jazzModeTimeLeft -= delta;
+			if (jazzModeTimeLeft <= 0) {
+				
+				this.mode = CatMode.ORIGINAL;
+				listener.didEnterMode(this, this.mode);
+			}
+		}
+		
 	}
 
 	public float getMaxSpeedX() {
@@ -429,18 +429,18 @@ public class Cat extends Movable implements Drawable, KeyboardHandler {
 
 				Color color = null;
 				
-
-
+				if (mode == CatMode.ORIGINAL) {
+					
 					
 					color = rainbowColors[j];
 					
-
-
-
-
-
-
+				} else if (mode == CatMode.JAZZ) {
 					
+					Color rC= rainbowColors[j];
+					float grey = rC.getRed() * 0.3f + rC.getGreen() * 0.584f + rC.getBlue() * 0.114f;
+					color = new Color(grey, grey, grey);
+				}
+									
 				color.a = 1f - i * (1f / rainbow.length);
 				g.setColor(color);
 				g.fillRect(x, y, segmentWidth, segmentHeight);

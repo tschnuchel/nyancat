@@ -16,17 +16,19 @@ import Base.game.state.CreditsGameState;
 import Base.game.state.GameOverGameState;
 import Base.game.state.GameViewGameState;
 import Base.game.state.MenuGameState;
+import Base.music.MusicManager;
 
 public class NyanGame extends TWLStateBasedGame {
 
 	public static void main(String[] args) {
+		
 		
 		// load natives dynamically
 		String file = new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath();
 		System.out.println(file);
 		System.setProperty("org.lwjgl.librarypath", file);
 		System.setProperty("net.java.games.input.librarypath", System.getProperty("org.lwjgl.librarypath"));
-
+		
 		StateBasedGame game = new NyanGame("Nyan");
 		
 		AppGameContainer container = null;
@@ -49,7 +51,8 @@ public class NyanGame extends TWLStateBasedGame {
 		
 		super(name);
 		
-		DataBaseManager.getDefaultManager();//TODO tut das was?
+
+
 	}
 
 	@Override

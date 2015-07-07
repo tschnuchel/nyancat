@@ -15,6 +15,7 @@ import Base.game.DataBaseManager;
 import Base.game.NyanGame;
 import Base.menu.ButtonAction;
 import Base.menu.CallbackAction;
+import Base.music.MusicManager;
 import de.matthiasmann.twl.ActionMap;
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.EditField;
@@ -29,16 +30,21 @@ public class MenuGameState extends BasicTWLGameState {
 	private NyanGame game;
 	private GameContainer container;
 	private EditField editField;
-
+	private MusicManager musicManager = MusicManager.getDefaultMusicManager();
+	
 	public MenuGameState(int uniqueID) {
 
 		this.id = uniqueID;
+
+		/*if[Hintrgrundmusik]*/
+		musicManager.playOriginal();
+		/*end[Hintergrundmusik]*/
 	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
+		
 		this.game = (NyanGame) game;
 		this.container = container;
 	}
@@ -72,9 +78,10 @@ public class MenuGameState extends BasicTWLGameState {
 
 			@Override
 			public void run() {
-
+				/*if[Highscore]*/
 				DataBaseManager.getDefaultManager().setPlayerName(
 						editField.getText());
+				/*end[Highscore]*/
 				FadeOutTransition leave = new FadeOutTransition(Color.black,
 						100);
 				FadeInTransition enter = new FadeInTransition(Color.black, 100);
@@ -87,8 +94,12 @@ public class MenuGameState extends BasicTWLGameState {
 		rootpane.add(newGameButton);
 
 		// add toggleDifficultyButton
+		
+		/*if[Schwierigkeitsgrade]*/
 		GameViewGameState gameViewGameState = (GameViewGameState) game
 				.getState(Constants.ID_GAMEVIEW);
+		
+		
 		toggleDifficultyButton = new Button(gameViewGameState.getDifficulty()
 				.toString());
 		ButtonAction toggleDifficultyAction = new ButtonAction(game, container) {
@@ -118,6 +129,7 @@ public class MenuGameState extends BasicTWLGameState {
 		};
 		toggleDifficultyButton.addCallback(toggleDifficultyAction);
 		rootpane.add(toggleDifficultyButton);
+		/*end[Schwierigkeitsgrade]*/
 
 		// add quitButton
 		quitButton = new Button("Quit");
@@ -125,8 +137,9 @@ public class MenuGameState extends BasicTWLGameState {
 
 			@Override
 			public void run() {
-
+				/*if[Highscore]*/
 				DataBaseManager.getDefaultManager().close();
+				/*end[Highscore]*/
 				container.exit();
 			}
 		};
@@ -134,6 +147,7 @@ public class MenuGameState extends BasicTWLGameState {
 		rootpane.add(quitButton);
 
 		// add editField
+		/*if[Highscore]*/
 		editField = new EditField();
 		String playerName = DataBaseManager.getDefaultManager().getPlayerName();
 		editField.setText(playerName);
@@ -149,6 +163,7 @@ public class MenuGameState extends BasicTWLGameState {
 
 		rootpane.add(editField);
 		editField.selectAll();
+		/*end[Highscore]*/
 
 		
 		// set actionMapping and focus
@@ -169,14 +184,14 @@ public class MenuGameState extends BasicTWLGameState {
 		int buttonHeight = 60;
 		int verticalSpace = 20;
 
-		Button[] buttons = { newGameButton, toggleDifficultyButton, quitButton };
+		Button[] buttons = { newGameButton, /*if[Schwierigkeitsgrade]*/toggleDifficultyButton, /*end[Schwierigkeitsgrade]*/quitButton };
 
 		for (int i = 0; i < buttons.length; i++) {
 
 			Button button = buttons[i];
 
 			if (button == newGameButton) {
-
+				/*if[Highscore]*/
 				int editWidth = 100;
 				int editHeight = buttonHeight;
 				int gap = 45;
@@ -192,7 +207,17 @@ public class MenuGameState extends BasicTWLGameState {
 				editField.setPosition(
 						(Constants.SCREEN_WIDTH - buttonWidth) / 2, y);
 				editField.setSize(editWidth, editHeight);
+				/*end[Highscore]*/
+				
+				/*if_not[Highscore]*/
 
+				button.setSize(buttonWidth, buttonHeight);
+				int y = (Constants.SCREEN_HEIGHT - buttons.length
+						* (buttonHeight + verticalSpace) - verticalSpace)
+						/ 2 + i * (buttonHeight + verticalSpace);
+				button.setPosition((Constants.SCREEN_WIDTH - buttonWidth) / 2, y);
+				
+				/*end[Highscore]*/
 			} else {
 				/* if_not[Schwierigkeitsgrade] */
 				quitButton.setSize(buttonWidth, buttonHeight);

@@ -22,7 +22,7 @@ public class Planet extends Obstacle {
 	public Planet(float radius, Image image, Image crashImage1, Image crashImage2, Point center, Movement movement) {
 		
 		super(new Rectangle(center.getX() - radius, center.getY() - radius, 2 * radius, 2 * radius), new Circle(center.getX(), center.getY(), radius), movement);
-
+		
 		float scale = 2 * radius / image.getHeight();
 		this.image = image.getScaledCopy(scale);
 		this.collisionImage1 = crashImage1.getScaledCopy(scale);
@@ -124,5 +124,4 @@ public class Planet extends Obstacle {
 		
 		this.collided = true;
 	}
-	
 }
