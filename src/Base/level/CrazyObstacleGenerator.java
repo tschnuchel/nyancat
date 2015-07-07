@@ -101,69 +101,69 @@ public class CrazyObstacleGenerator extends ObstacleGenerator {
 				  
 
 				
-				 
+				  
+				
+				// Creating Gravety movements and 2 Planets
+				
+				Image image1 = (Image) ResourceManager.getDefaultManager()
+						.getResourceNamed(ResourceManager.PLANET_IMAGE2);
+				Image crashImage11 = (Image) ResourceManager
+						.getDefaultManager().getResourceNamed(
+								ResourceManager.PLANET_CRASH1);
+				Image crashImage21 = (Image) ResourceManager
+						.getDefaultManager().getResourceNamed(
+								ResourceManager.PLANET_CRASH2);
 
+				float radius1 = (float) (10 + Math.random() * 50);
+				float radius2 = (float) (10 + Math.random() * 50);
+				float x1 = Constants.SCREEN_WIDTH + radius1;
+				float y1 = (float) (Math.random() * Constants.SCREEN_HEIGHT);
+				float x2 = Constants.SCREEN_WIDTH + radius2;
+				float y2 = (float) (Math.random() * Constants.SCREEN_HEIGHT);
 
+				Point center1 = new Point(x1, y1);
+				Point center2 = new Point(x2, y2);
+				// TODO hier evtl. bei Schwierigkeitsgrad anpassen
+				float speedX1 = (float) (-100 - Math.random() * 150) ;
+				float speedY1 = (float) (Math.random() * 300 - 150) ;
 
+				float speedX2 = (float) (-100 - Math.random() * 150) ;
+				float speedY2 = (float) (Math.random() * 300 - 150) ;
 
+				Point speedVector1 = new Point(speedX1, speedY1);
+				Point speedVector2 = new Point(speedX2, speedY2);
 
+				Movement movement1 = new LinearMovement(speedVector1);
+				Movement movement2 = new LinearMovement(speedVector2);
 
+				Planet planet1 = new Planet(radius1, image1, crashImage11,
+						crashImage21, center1, movement1);
+				Planet planet2 = new Planet(radius2, image1, crashImage11,
+						crashImage21, center2, movement2);
 
+				float mass1 = radius1 / 12;
+				float mass2 = radius2 / 12;
 
+				
+				// Setting Gravity Movement for Planet 2
+				
+				Movement gravityMovement1 = new GravitationMovement(planet1,
+						planet2, mass1, new Point(-90, 80));
+				gravityMovement1.setChild(planet2.getMovement());
+				planet2.setMovement(gravityMovement1);
+				notifyListeners(planet1);
+				notifyListeners(planet2);
 
+				// Setting Gravity Movement for Planet 1
+				
+				Movement gravityMovement2 = new GravitationMovement(planet2,
+						planet1, mass2, new Point(+30, -50));
+				gravityMovement2.setChild(planet1.getMovement());
+				planet1.setMovement(gravityMovement2);
+				notifyListeners(planet2);
+				notifyListeners(planet1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
+				  
 
 				
 				  
@@ -197,12 +197,12 @@ public class CrazyObstacleGenerator extends ObstacleGenerator {
 			counter = 500;
 			
 			
-
-
-
-
-
-
+			counter = 1500;
+			
+			if(mode==CatMode.JAZZ)
+				counter = 500;
+			
+			
 			
 			}// end IF Block
 		
