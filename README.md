@@ -2,12 +2,14 @@
 
 *Avoid planet collisions, collect rainbows and saxes!*
 
+![gameplay](documentation/gameplay.gif)
+
 ## About
 
 *NyanCat Game* is simple. You start with 7 lifes and must find your way through space. If you hit a planet you'll lose a life (rainbow segment), so make sure to collect 1-UPs as you navigate.  
-On top, you can collect saxophones to enter Jazz-Mode. It's more or less the same, only way cooler: Smoother music, sunglasses and an awesome saxophonist.
+On top, you can collect saxophones to enter Jazz-Mode. It's more or less the same, only way cooler: Smoother music, sunglasses and an [Awesome Saxophonist](https://simpsons.fandom.com/wiki/Bleeding_Gums_Murphy).
 
-![excerpt](documentation/gameplay.gif)
+![jazzmode](documentation/jazzmode.png)
 
  > Want to see more? Watch the [*"Let's Play!" Video*](documentation/letsplay.mp4?raw=true)
 
