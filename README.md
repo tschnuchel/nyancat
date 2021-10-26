@@ -5,7 +5,7 @@
 ## About
 
 *NyanCat Game* is simple. You start with 7 lives and must find your way through space. If you hit a planet you'll lose a life (rainbow segment), so make sure to collect extra lives as you navigate.  
-On top, you can collect saxophones to enter Jazz-Mode. It's more or less the same, only way cooler: Smoother music, sunglasses and a an awesome saxophonist.
+On top, you can collect saxophones to enter Jazz-Mode. It's more or less the same, only way cooler: Smoother music, sunglasses and an awesome saxophonist.
 
 ![excerpt](documentation/gameplay.gif)
 
