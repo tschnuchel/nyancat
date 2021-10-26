@@ -4,7 +4,7 @@
 
 ## About
 
-*NyanCat Game* is simple. You start with 7 lives and must find your way through space. If you hit a planet you'll lose a life (rainbow segment), so make sure to collect extra lives as you navigate.  
+*NyanCat Game* is simple. You start with 7 lifes and must find your way through space. If you hit a planet you'll lose a life (rainbow segment), so make sure to collect 1-UPs as you navigate.  
 On top, you can collect saxophones to enter Jazz-Mode. It's more or less the same, only way cooler: Smoother music, sunglasses and an awesome saxophonist.
 
 ![excerpt](documentation/gameplay.gif)
@@ -13,7 +13,7 @@ On top, you can collect saxophones to enter Jazz-Mode. It's more or less the sam
 
 ## How to build / run
 
-Unfortunately you need to install Eclipse (Boooh!) to play the *NyanCat Game*.
+Unfortunately you need Eclipse (Boooh!) to play the *NyanCat Game*.
 
  * [Download and install Eclipse](https://www.eclipse.org/downloads/)
  * [Download and install Java-8]() (tested with java 1.8.0_241-b07)  
