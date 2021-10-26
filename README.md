@@ -15,9 +15,9 @@ On top, you can collect saxophones to enter Jazz-Mode. It's more or less the sam
 
 Unfortunately you need Eclipse (Boooh!) to play the *NyanCat Game*.
 
- * [Download and install Eclipse](https://www.eclipse.org/downloads/)
- * [Download and install Java-8]() (tested with java 1.8.0_241-b07)  
-  ```export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)```
+ * [Download and install Eclipse](https://www.eclipse.org/downloads/packages/release/2021-09/r/eclipse-ide-java-developers)
+ * [Download and install Java-8](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) (tested with java 1.8.0_241-b07)  
+  ```export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)``` (MacOS)
  * Clone this repository  
   ```git clone https://github.com/tschnuchel/nyancat.git```
  * Open the project sources in Eclipse  
