@@ -9,7 +9,7 @@ On top, you can collect saxophones to enter Jazz-Mode. It's more or less the sam
 
 ![excerpt](documentation/gameplay.gif)
 
- > Want to see more? Watch the [*"Let's Play!" Video*](documentation/letsplay.mp4)
+ > Want to see more? Watch the [*"Let's Play!" Video*](documentation/letsplay.mp4?raw=true)
 
 ## How to build / run
 
